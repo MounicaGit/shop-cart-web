@@ -1,12 +1,19 @@
 import showEye from '../assets/images/password-show.png';
 import hideEye from '../assets/images/password-hide.png';
 import { useState } from 'react';
+import useValidators from '../validations/useValidators';
 
 export default function SignUp() {
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [acceptTnC, setAcceptTnC] = useState(false);
+    const { emailError, passwordError, fullNameError, phoneError, validateEmail, validateFullName, validatePhone, validatePassword } = useValidators();
+    const [fullName, setFullName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
 
     function renderHeader() {
         return (
@@ -40,8 +47,12 @@ export default function SignUp() {
                 <input
                     type="text"
                     placeholder="Enter your full name"
+                    value={fullName}
+                    onChange={(e) => { setFullName(e.target.value); validateFullName(fullName) }}
+                    onBlur={() => validateFullName(fullName)}
                     className="h-[40xpx] rounded-md border-2 border-gray-200 pl-2 h-[40px]"
                 />
+                {fullNameError && <p className="text-red-500 text-sm mt-1">{fullNameError}</p>}
             </div>
         )
     }
@@ -53,8 +64,12 @@ export default function SignUp() {
                 <input
                     type="email"
                     placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => { setEmail(e.target.value); validateEmail(email) }}
+                    onBlur={() => validateEmail(email)}
                     className="h-[40xpx] rounded-md border-2 border-gray-200 pl-2 h-[40px]"
                 />
+                {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
             </div>
         )
     }
@@ -66,8 +81,12 @@ export default function SignUp() {
                 <input
                     type="tel"
                     placeholder="Enter your phone number"
+                    value={phone}
+                    onChange={(e) => { setPhone(e.target.value); validatePhone(phone) }}
+                    onBlur={() => validatePhone(phone)}
                     className="h-[40xpx] rounded-md border-2 border-gray-200 pl-2 h-[40px]"
                 />
+                {phoneError && <p className="text-red-500 text-sm mt-1">{phoneError}</p>}
             </div>
         )
     }
@@ -79,13 +98,16 @@ export default function SignUp() {
                 <input
                     type={showPassword ? "text" : "password"}
                     placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => { setPassword(e.target.value); validatePassword(password) }}
+                    onBlur={() => validatePassword(password)}
                     className="h-[40xpx] rounded-md border-2 border-gray-200 pl-2 h-[40px]"
                 />
                 <img
                     src={showPassword ? showEye : hideEye}
                     className="h-4 w-4 absolute right-2 top-9"
                     onClick={() => setShowPassword(!showPassword)} />
-
+                {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
             </div>
         )
     }
@@ -97,9 +119,15 @@ export default function SignUp() {
                 <input
                     type={showConfirmPassword ? "text" : "password"}
                     placeholder="Confirm your password"
+                    value={confirmPassword}
+                    onChange={(e) => { setConfirmPassword(e.target.value); validatePassword(confirmPassword) }}
+                    onBlur={() => validatePassword(confirmPassword)}
                     className="h-[40xpx] rounded-md border-2 border-gray-200 pl-2 h-[40px]"
                 />
                 <img src={showConfirmPassword ? showEye : hideEye} className="h-4 w-4 absolute right-2 top-9" onClick={() => setShowConfirmPassword(!showConfirmPassword)} />
+                {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
+                {(password && confirmPassword) && password != confirmPassword ? <p className="text-red-500 text-sm mt-1">Passwords do not match</p> : null}
+
             </div>
         )
     }
@@ -127,7 +155,9 @@ export default function SignUp() {
     function renderSignUpButton() {
         return (
             <div>
-                <button className="h-[40px] text-center bg-blue-700 w-[100%] mt-5 rounded-lg text-white">Sign Up</button>
+                <button
+                    className="h-[40px] text-center bg-blue-700 disabled:opacity-50 w-[100%] mt-5 rounded-lg text-white"
+                    disabled={fullNameError || emailError || passwordError || (password != confirmPassword) || !acceptTnC}>Sign Up</button>
             </div>
         )
     }

@@ -1,11 +1,15 @@
 import { useState } from "react";
 import showEyeIcon from "../assets/images/password-show.png";
 import hideEyeIcon from "../assets/images/password-hide.png";
+import useValidators from '../validations/useValidators';
 
 
 export default function SignIn() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [rememberMeChecked, setRememberMeChecked] = useState(false);
+    const { emailError, passwordError, validateEmail, validatePassword } = useValidators();
 
     function renderHeader() {
         return (
@@ -19,12 +23,16 @@ export default function SignIn() {
     function renderEmail() {
         return (
             <div className="flex flex-col">
-                <h7>Email</h7>
+                <label>Email</label>
                 <input
-                    className="border-2 rounded-md border-grey-500 h-[40px] flex items-center mt-2 pl-2"
+                    className="border-2 rounded-md border-gray-200 h-[40px] flex items-center mt-2 pl-2"
                     type="email"
+                    value={email}
                     placeholder="Enter your email"
+                    onChange={(e) => { validateEmail(email); setEmail(e.target.value) }}
+                    onBlur={() => validateEmail(email)}
                 />
+                {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
             </div>
         )
     }
@@ -32,10 +40,13 @@ export default function SignIn() {
     function renderPassword() {
         return (
             <div className="relative flex flex-col mt-5">
-                <h7>Password</h7>
+                <label>Password</label>
                 <input
-                    className="border-2 rounded-md border-grey-500 h-[40px] flex items-center mt-2 pl-2"
+                    className="border-2 rounded-md border-gray-200 h-[40px] flex items-center mt-2 pl-2"
                     type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => { validatePassword(password); setPassword(e.target.value) }}
+                    onBlur={() => validatePassword(password)}
                     placeholder="Enter your password"
                 />
                 <img
@@ -43,7 +54,7 @@ export default function SignIn() {
                     src={showPassword ? showEyeIcon : hideEyeIcon}
                     alt="eye-toggle"
                     onClick={() => setShowPassword(!showPassword)} />
-
+                {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
             </div>
         )
     }
@@ -56,14 +67,16 @@ export default function SignIn() {
                     checked={rememberMeChecked}
                     className="mt-1"
                     onChange={() => setRememberMeChecked(!rememberMeChecked)} />
-                <label className="ml-1 text-sm text-grey-200">Remember me</label>
+                <label className="ml-1 text-xs text-gray-500">Remember me</label>
             </div>
         )
     }
 
     function renderSignInButton() {
         return (
-            <button className="bg-blue-700 py-2 w-[100%] hover:bg-blue-400 rounded-md text-white mt-8">
+            <button
+                className="bg-blue-700 py-2 w-[100%] disabled:opacity-50 hover:bg-blue-400 rounded-md text-white mt-8"
+                disabled={emailError || passwordError}>
                 Sign In</button>
         )
     }
