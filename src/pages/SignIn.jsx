@@ -31,20 +31,19 @@ export default function SignIn() {
 
     function renderPassword() {
         return (
-            <div className="flex flex-col mt-5">
+            <div className="relative flex flex-col mt-5">
                 <h7>Password</h7>
-                <div className="relative">
-                    <input
-                        className="border-2 rounded-md border-grey-500 h-[40px] flex items-center mt-2 pl-2 w-[90%]"
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Enter your password"
-                    />
-                    <img
-                        className="w-5 h-5 absolute right-1 top-5 w-[5%]"
-                        src={showPassword ? showEyeIcon : hideEyeIcon}
-                        alt="eye-toggle"
-                        onClick={() => setShowPassword(!showPassword)} />
-                </div>
+                <input
+                    className="border-2 rounded-md border-grey-500 h-[40px] flex items-center mt-2 pl-2"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Enter your password"
+                />
+                <img
+                    className="w-4 h-4 absolute right-2 top-11"
+                    src={showPassword ? showEyeIcon : hideEyeIcon}
+                    alt="eye-toggle"
+                    onClick={() => setShowPassword(!showPassword)} />
+
             </div>
         )
     }
@@ -64,8 +63,17 @@ export default function SignIn() {
 
     function renderSignInButton() {
         return (
-            <button className="bg-blue-500 py-2 w-[100%] hover:bg-blue-400 rounded-md text-white mt-5">
+            <button className="bg-blue-700 py-2 w-[100%] hover:bg-blue-400 rounded-md text-white mt-8">
                 Sign In</button>
+        )
+    }
+
+    function renderSignUpView() {
+        return (
+            <div className="mt-2 text-center">
+                <p className="text-xs text-gray-500">Don't have an account?
+                    <a href="/sign-up" className="text-blue-700 hover:text-blue-300"> Sign Up</a></p>
+            </div>
         )
     }
 
@@ -78,11 +86,12 @@ export default function SignIn() {
                 {renderPassword()}
                 {renderRememberMe()}
                 {renderSignInButton()}
+                {renderSignUpView()}
             </div>
         )
     }
     return (
-        <div className="flex flex-col gap-2px justify-center items-center bg-blue-600 min-h-screen">
+        <div className="flex flex-col gap-2px justify-center items-center bg-blue-700 min-h-screen">
             {renderHeader()}
             {renderCard()}   </div>
     );
