@@ -2,6 +2,9 @@ import showEye from '../assets/images/password-show.png';
 import hideEye from '../assets/images/password-hide.png';
 import { useState } from 'react';
 import useValidators from '../validations/useValidators';
+import { Toaster, toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router';
+import { useAuth } from '../context/AuthContext';
 
 export default function SignUp() {
 
@@ -14,6 +17,8 @@ export default function SignUp() {
     const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const navigate = useNavigate();
+    const { signUp } = useAuth();
 
     function renderHeader() {
         return (
@@ -42,7 +47,7 @@ export default function SignUp() {
 
     function renderFullName() {
         return (
-            <div className="flex flex-col gap-1 mb-3">
+            <div className="flex flex-col gap-1 mb-5">
                 <label className="text-sm text-gray-700">Full Name</label>
                 <input
                     type="text"
@@ -50,7 +55,7 @@ export default function SignUp() {
                     value={fullName}
                     onChange={(e) => { setFullName(e.target.value); validateFullName(fullName) }}
                     onBlur={() => validateFullName(fullName)}
-                    className="h-[40xpx] rounded-md border-2 border-gray-200 pl-2 h-[40px]"
+                    className="h-[40xpx] rounded-md border border-gray-200 pl-2 h-[40px]"
                 />
                 {fullNameError && <p className="text-red-500 text-sm mt-1">{fullNameError}</p>}
             </div>
@@ -59,7 +64,7 @@ export default function SignUp() {
 
     function renderEmail() {
         return (
-            <div className="flex flex-col gap-1 mb-3">
+            <div className="flex flex-col gap-1 mb-5">
                 <label className="text-sm text-gray-700">Email</label>
                 <input
                     type="email"
@@ -67,7 +72,7 @@ export default function SignUp() {
                     value={email}
                     onChange={(e) => { setEmail(e.target.value); validateEmail(email) }}
                     onBlur={() => validateEmail(email)}
-                    className="h-[40xpx] rounded-md border-2 border-gray-200 pl-2 h-[40px]"
+                    className="h-[40xpx] rounded-md border border-gray-200 pl-2 h-[40px]"
                 />
                 {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
             </div>
@@ -76,7 +81,7 @@ export default function SignUp() {
 
     function renderPhoneNumber() {
         return (
-            <div className="flex flex-col gap-1 mb-3">
+            <div className="flex flex-col gap-1 mb-5">
                 <label className="text-sm text-gray-700">Phone Number</label>
                 <input
                     type="tel"
@@ -84,7 +89,7 @@ export default function SignUp() {
                     value={phone}
                     onChange={(e) => { setPhone(e.target.value); validatePhone(phone) }}
                     onBlur={() => validatePhone(phone)}
-                    className="h-[40xpx] rounded-md border-2 border-gray-200 pl-2 h-[40px]"
+                    className="h-[40xpx] rounded-md border border-gray-200 pl-2 h-[40px]"
                 />
                 {phoneError && <p className="text-red-500 text-sm mt-1">{phoneError}</p>}
             </div>
@@ -93,7 +98,7 @@ export default function SignUp() {
 
     function renderPassword() {
         return (
-            <div className="flex flex-col gap-1 mb-3 relative">
+            <div className="flex flex-col gap-1 mb-5 relative">
                 <label className="text-sm text-gray-700">Password</label>
                 <input
                     type={showPassword ? "text" : "password"}
@@ -101,7 +106,7 @@ export default function SignUp() {
                     value={password}
                     onChange={(e) => { setPassword(e.target.value); validatePassword(password) }}
                     onBlur={() => validatePassword(password)}
-                    className="h-[40xpx] rounded-md border-2 border-gray-200 pl-2 h-[40px]"
+                    className="h-[40xpx] rounded-md border border-gray-200 pl-2 h-[40px]"
                 />
                 <img
                     src={showPassword ? showEye : hideEye}
@@ -114,7 +119,7 @@ export default function SignUp() {
 
     function renderConfirmPassword() {
         return (
-            <div className="flex flex-col gap-1 mb-3 relative">
+            <div className="flex flex-col gap-1 mb-5 relative">
                 <label className="text-sm text-gray-700">Confirm Password</label>
                 <input
                     type={showConfirmPassword ? "text" : "password"}
@@ -122,7 +127,7 @@ export default function SignUp() {
                     value={confirmPassword}
                     onChange={(e) => { setConfirmPassword(e.target.value); validatePassword(confirmPassword) }}
                     onBlur={() => validatePassword(confirmPassword)}
-                    className="h-[40xpx] rounded-md border-2 border-gray-200 pl-2 h-[40px]"
+                    className="h-[40xpx] rounded-md border border-gray-200 pl-2 h-[40px]"
                 />
                 <img src={showConfirmPassword ? showEye : hideEye} className="h-4 w-4 absolute right-2 top-9" onClick={() => setShowConfirmPassword(!showConfirmPassword)} />
                 {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
@@ -152,17 +157,31 @@ export default function SignUp() {
             </div >
         )
     }
+
+    function handleRegister() {
+        const success = signUp({ fullName, email, phone, password })
+        if (success) {
+            toast.success("Registered Successfully!!");
+            setTimeout(() => { navigate("/") }, 1500);
+        }
+        else {
+            toast.error("Registration Failed! Try Again Later!!")
+        }
+    }
+
     function renderSignUpButton() {
         return (
             <div>
                 <button
                     className="h-[40px] text-center bg-blue-700 disabled:opacity-50 w-[100%] mt-5 rounded-lg text-white"
-                    disabled={fullNameError || emailError || passwordError || (password != confirmPassword) || !acceptTnC}>Sign Up</button>
+                    disabled={!fullName || !phone || !email || !password || !confirmPassword || fullNameError || emailError || phoneError || passwordError || (password != confirmPassword) || !acceptTnC}
+                    onClick={() => handleRegister()}>Sign Up</button>
             </div>
         )
     }
     return (
         <div className="flex flex-col bg-blue-700 justify-center items-center min-h-screen">
+            <Toaster position="center" />
             {renderHeader()}
             {renderCard()}
         </div>

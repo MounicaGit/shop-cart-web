@@ -2,6 +2,9 @@ import { useState } from "react";
 import showEyeIcon from "../assets/images/password-show.png";
 import hideEyeIcon from "../assets/images/password-hide.png";
 import useValidators from '../validations/useValidators';
+import { useNavigate } from "react-router";
+import toast, { Toaster } from "react-hot-toast";
+import { useAuth } from "../context/AuthContext";
 
 
 export default function SignIn() {
@@ -10,6 +13,8 @@ export default function SignIn() {
     const [showPassword, setShowPassword] = useState(false);
     const [rememberMeChecked, setRememberMeChecked] = useState(false);
     const { emailError, passwordError, validateEmail, validatePassword } = useValidators();
+    const navigate = useNavigate();
+    const { login } = useAuth();
 
     function renderHeader() {
         return (
@@ -25,7 +30,7 @@ export default function SignIn() {
             <div className="flex flex-col">
                 <label>Email</label>
                 <input
-                    className="border-2 rounded-md border-gray-200 h-[40px] flex items-center mt-2 pl-2"
+                    className="border rounded-md border-gray-200 h-[40px] flex items-center mt-2 pl-2"
                     type="email"
                     value={email}
                     placeholder="Enter your email"
@@ -42,7 +47,7 @@ export default function SignIn() {
             <div className="relative flex flex-col mt-5">
                 <label>Password</label>
                 <input
-                    className="border-2 rounded-md border-gray-200 h-[40px] flex items-center mt-2 pl-2"
+                    className="border rounded-md border-gray-200 h-[40px] flex items-center mt-2 pl-2"
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => { validatePassword(password); setPassword(e.target.value) }}
@@ -67,7 +72,7 @@ export default function SignIn() {
                     checked={rememberMeChecked}
                     className="mt-1"
                     onChange={() => setRememberMeChecked(!rememberMeChecked)} />
-                <label className="ml-1 text-xs text-gray-500">Remember me</label>
+                <label className="ml-1 text-xs text-gray-500 mt-1">Remember me</label>
             </div>
         )
     }
@@ -76,9 +81,21 @@ export default function SignIn() {
         return (
             <button
                 className="bg-blue-700 py-2 w-[100%] disabled:opacity-50 hover:bg-blue-400 rounded-md text-white mt-8"
-                disabled={emailError || passwordError}>
+                disabled={emailError || passwordError}
+                onClick={() => handleLogin()}>
                 Sign In</button>
         )
+    }
+
+    function handleLogin() {
+        const success = login(email, password)
+        if (success) {
+            toast.success("Hey! Welcome Back");
+            setTimeout(() => { navigate("/home") }, 1500);
+        }
+        else {
+            toast.error("Invalid Credentials!!")
+        }
     }
 
     function renderSignUpView() {
@@ -105,6 +122,7 @@ export default function SignIn() {
     }
     return (
         <div className="flex flex-col gap-2px justify-center items-center bg-blue-700 min-h-screen">
+            <Toaster position="center" />
             {renderHeader()}
             {renderCard()}   </div>
     );
