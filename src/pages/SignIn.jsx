@@ -4,7 +4,8 @@ import hideEyeIcon from "../assets/images/password-hide.png";
 import useValidators from '../validations/useValidators';
 import { useNavigate } from "react-router";
 import toast, { Toaster } from "react-hot-toast";
-import { useAuth } from "../context/AuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../store/authSlice";
 
 
 export default function SignIn() {
@@ -14,7 +15,8 @@ export default function SignIn() {
     const [rememberMeChecked, setRememberMeChecked] = useState(false);
     const { emailError, passwordError, validateEmail, validatePassword } = useValidators();
     const navigate = useNavigate();
-    const { login } = useAuth();
+    const dispatch = useDispatch();
+    const storedUser = useSelector((state) => state.auth.user)
 
     function renderHeader() {
         return (
@@ -88,8 +90,9 @@ export default function SignIn() {
     }
 
     function handleLogin() {
-        const success = login(email, password)
-        if (success) {
+        if (storedUser && storedUser.email == email && storedUser.password == password) {
+            dispatch(login({email, password}))
+
             toast.success("Hey! Welcome Back");
             setTimeout(() => { navigate("/home") }, 1500);
         }

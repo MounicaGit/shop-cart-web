@@ -4,7 +4,8 @@ import { useState } from 'react';
 import useValidators from '../validations/useValidators';
 import { Toaster, toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router';
-import { useAuth } from '../context/AuthContext';
+import { useDispatch } from 'react-redux';
+import { signUp } from '../store/authSlice';
 
 export default function SignUp() {
 
@@ -18,7 +19,7 @@ export default function SignUp() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const navigate = useNavigate();
-    const { signUp } = useAuth();
+    const dispatch = useDispatch();
 
     function renderHeader() {
         return (
@@ -159,14 +160,14 @@ export default function SignUp() {
     }
 
     function handleRegister() {
-        const success = signUp({ fullName, email, phone, password })
-        if (success) {
-            toast.success("Registered Successfully!!");
-            setTimeout(() => { navigate("/") }, 1500);
-        }
-        else {
-            toast.error("Registration Failed! Try Again Later!!")
-        }
+        dispatch(signUp({fullName, email, phone, password}))
+        // if (success) {
+        toast.success("Registered Successfully!!");
+        setTimeout(() => { navigate("/") }, 1500);
+        // }
+        // else {
+        //     toast.error("Registration Failed! Try Again Later!!")
+        // }
     }
 
     function renderSignUpButton() {
