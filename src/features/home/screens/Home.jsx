@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { logout } from "../../auth/store/authSlice";
 import { useNavigate } from "react-router";
 import HeaderBar from "../../../components/layout/HeaderBar";
+import Deals from "../components/Deals";
 
 export default function Home() {
     const dispatch = useDispatch();
@@ -15,6 +16,7 @@ export default function Home() {
     return (
         <div>
             <HeaderBar/>
+            <Deals/>
         </div>
     )
 }

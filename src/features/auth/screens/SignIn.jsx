@@ -1,6 +1,6 @@
 import { useState } from "react";
-import showEyeIcon from "../../../assets/images/password-show.png";
-import hideEyeIcon from "../../../assets/images/password-hide.png";
+import showEyeIcon from "../../../assets/icons/password-show.png";
+import hideEyeIcon from "../../../assets/icons/password-hide.png";
 import useValidators from '../validations/authValidators';
 import { useNavigate } from "react-router";
 import toast, { Toaster } from "react-hot-toast";
@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../store/authSlice";
 import Button from "../../../components/ui/Button";
 import TextField from "../../../components/ui/TextField";
-import CheckBox from "../../../components/ui/CheckBox";
+import CheckBox from "../../../components/ui/Checkbox";
 
 
 export default function SignIn() {
@@ -87,6 +87,7 @@ export default function SignIn() {
     function renderSignInButton() {
         return (
             <Button
+                className="bg-blue-700 py-2 w-[100%] disabled:opacity-50 hover:bg-blue-400 rounded-md text-white mt-8"
                 disabled={emailError || passwordError}
                 onClick={() => handleLogin()}
             >

@@ -1,5 +1,5 @@
-import showEye from '../../../assets/images/password-show.png';
-import hideEye from '../../../assets/images/password-hide.png';
+import showEye from '../../../assets/icons/password-show.png';
+import hideEye from '../../../assets/icons/password-hide.png';
 import { useState } from 'react';
 import useValidators from '../validations/authValidators';
 import { Toaster, toast } from 'react-hot-toast';
@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { signUp } from '../store/authSlice';
 import Button from '../../../components/ui/Button';
-import CheckBox from '../../../components/ui/CheckBox';
+import CheckBox from '../../../components/ui/Checkbox';
 
 export default function SignUp() {
 
@@ -161,8 +161,8 @@ export default function SignUp() {
                     onChange={() => setAcceptTnC(!acceptTnC)}
                 >
                     <label className="ml-2 text-xs text-gray-700">I agree to the <a href="#" className="text-blue-600 hover:text-blue-300">Terms of Services</a> and <a href="#" className="text-blue-600 hover:text-blue-300">Privacy Policy</a></label>
-                </CheckBox> 
-                </div >
+                </CheckBox>
+            </div >
         )
     }
 
@@ -181,6 +181,7 @@ export default function SignUp() {
         return (
             <div>
                 <Button
+                    className="bg-blue-700 py-2 w-[100%] disabled:opacity-50 hover:bg-blue-400 rounded-md text-white mt-8"
                     disabled={!fullName || !phone || !email || !password || !confirmPassword || fullNameError || emailError || phoneError || passwordError || (password != confirmPassword) || !acceptTnC}
                     onClick={() => handleRegister()} >Sign Up</Button>
             </div >
