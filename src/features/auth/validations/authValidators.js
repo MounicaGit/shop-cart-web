@@ -1,5 +1,5 @@
 import { set } from "zod";
-import { emailSchema, phoneSchema, fullNameSchema, passwordSchema } from "./schemas";
+import { emailSchema, phoneSchema, fullNameSchema, passwordSchema } from "./authSchemas";
 import { useState } from "react";
 
 export default function useValidators() {

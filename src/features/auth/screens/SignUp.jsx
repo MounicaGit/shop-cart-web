@@ -1,11 +1,13 @@
-import showEye from '../assets/images/password-show.png';
-import hideEye from '../assets/images/password-hide.png';
+import showEye from '../../../assets/images/password-show.png';
+import hideEye from '../../../assets/images/password-hide.png';
 import { useState } from 'react';
-import useValidators from '../validations/useValidators';
+import useValidators from '../validations/authValidators';
 import { Toaster, toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { signUp } from '../store/authSlice';
+import Button from '../../../components/ui/Button';
+import CheckBox from '../../../components/ui/CheckBox';
 
 export default function SignUp() {
 
@@ -141,26 +143,31 @@ export default function SignUp() {
     function renderSignInView() {
         return (
             <div className="mt-5">
-                <p className='text-xs text-gray-500 text-center'>Already have an account? <a href="/" className="text-xs text-blue-600 font-semibold hover:text-blue-300">Sign In</a></p>
+                <p className='text-xs text-gray-500 text-center'>Already have an account? <a href="/login" className="text-xs text-blue-700 hover:text-blue-300">Sign In</a></p>
             </div>
         )
     }
 
     function renderTnC() {
         return (
-            <div className="flex flex-row justify-start">
-                <input
+            <div className="flex flex-row justify-start items-center">
+                {/* <input
                     type="checkbox"
                     checked={acceptTnC}
                     onChange={() => setAcceptTnC(!acceptTnC)}
-                />
-                <label className="ml-2 text-xs text-gray-700">I agree to the <a href="#" className="text-blue-600 hover:text-blue-300">Terms of Services</a> and <a href="#" className="text-blue-600 hover:text-blue-300">Privacy Policy</a></label>
-            </div >
+                /> */}
+                <CheckBox
+                    checked={acceptTnC}
+                    onChange={() => setAcceptTnC(!acceptTnC)}
+                >
+                    <label className="ml-2 text-xs text-gray-700">I agree to the <a href="#" className="text-blue-600 hover:text-blue-300">Terms of Services</a> and <a href="#" className="text-blue-600 hover:text-blue-300">Privacy Policy</a></label>
+                </CheckBox> 
+                </div >
         )
     }
 
     function handleRegister() {
-        dispatch(signUp({fullName, email, phone, password}))
+        dispatch(signUp({ fullName, email, phone, password }))
         // if (success) {
         toast.success("Registered Successfully!!");
         setTimeout(() => { navigate("/") }, 1500);
@@ -173,11 +180,10 @@ export default function SignUp() {
     function renderSignUpButton() {
         return (
             <div>
-                <button
-                    className="h-[40px] text-center bg-blue-700 disabled:opacity-50 w-[100%] mt-5 rounded-lg text-white"
+                <Button
                     disabled={!fullName || !phone || !email || !password || !confirmPassword || fullNameError || emailError || phoneError || passwordError || (password != confirmPassword) || !acceptTnC}
-                    onClick={() => handleRegister()}>Sign Up</button>
-            </div>
+                    onClick={() => handleRegister()} >Sign Up</Button>
+            </div >
         )
     }
     return (

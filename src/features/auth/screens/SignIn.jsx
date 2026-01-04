@@ -1,11 +1,14 @@
 import { useState } from "react";
-import showEyeIcon from "../assets/images/password-show.png";
-import hideEyeIcon from "../assets/images/password-hide.png";
-import useValidators from '../validations/useValidators';
+import showEyeIcon from "../../../assets/images/password-show.png";
+import hideEyeIcon from "../../../assets/images/password-hide.png";
+import useValidators from '../validations/authValidators';
 import { useNavigate } from "react-router";
 import toast, { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../store/authSlice";
+import Button from "../../../components/ui/Button";
+import TextField from "../../../components/ui/TextField";
+import CheckBox from "../../../components/ui/CheckBox";
 
 
 export default function SignIn() {
@@ -31,14 +34,12 @@ export default function SignIn() {
         return (
             <div className="flex flex-col">
                 <label>Email</label>
-                <input
-                    className="border rounded-md border-gray-200 h-[40px] flex items-center mt-2 pl-2"
+                <TextField
                     type="email"
                     value={email}
                     placeholder="Enter your email"
-                    onChange={(e) => { validateEmail(email); setEmail(e.target.value) }}
-                    onBlur={() => validateEmail(email)}
-                />
+                    onChange={(e) => { validateEmail(e.target.value); setEmail(e.target.value) }}
+                    onBlur={() => validateEmail(email)} />
                 {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
             </div>
         )
@@ -48,11 +49,18 @@ export default function SignIn() {
         return (
             <div className="relative flex flex-col mt-5">
                 <label>Password</label>
-                <input
+                {/* <input
                     className="border rounded-md border-gray-200 h-[40px] flex items-center mt-2 pl-2"
                     type={showPassword ? "text" : "password"}
                     value={password}
-                    onChange={(e) => { validatePassword(password); setPassword(e.target.value) }}
+                    onChange={(e) => { validatePassword(e.target.value); setPassword(e.target.value) }}
+                    onBlur={() => validatePassword(password)}
+                    placeholder="Enter your password"
+                /> */}
+                <TextField
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => { validatePassword(e.target.value); setPassword(e.target.value) }}
                     onBlur={() => validatePassword(password)}
                     placeholder="Enter your password"
                 />
@@ -68,30 +76,27 @@ export default function SignIn() {
 
     function renderRememberMe() {
         return (
-            <div className="flex justify-start items-center mt-2">
-                <input
-                    type="checkbox"
-                    checked={rememberMeChecked}
-                    className="mt-1"
-                    onChange={() => setRememberMeChecked(!rememberMeChecked)} />
-                <label className="ml-1 text-xs text-gray-500 mt-1">Remember me</label>
-            </div>
+            <CheckBox
+                checked={rememberMeChecked}
+                onChange={() => setRememberMeChecked(!rememberMeChecked)}
+            > <label className="ml-1 text-xs text-gray-500">Remember me</label> </CheckBox>
+
         )
     }
 
     function renderSignInButton() {
         return (
-            <button
-                className="bg-blue-700 py-2 w-[100%] disabled:opacity-50 hover:bg-blue-400 rounded-md text-white mt-8"
+            <Button
                 disabled={emailError || passwordError}
-                onClick={() => handleLogin()}>
-                Sign In</button>
+                onClick={() => handleLogin()}
+            >
+                Sign In </Button>
         )
     }
 
     function handleLogin() {
         if (storedUser && storedUser.email == email && storedUser.password == password) {
-            dispatch(login({email, password}))
+            dispatch(login({ email, password }))
 
             toast.success("Hey! Welcome Back");
             setTimeout(() => { navigate("/home") }, 1500);
@@ -103,7 +108,7 @@ export default function SignIn() {
 
     function renderSignUpView() {
         return (
-            <div className="mt-2 text-center">
+            <div className="mt-4 text-center">
                 <p className="text-xs text-gray-500">Don't have an account?
                     <a href="/sign-up" className="text-blue-700 hover:text-blue-300"> Sign Up</a></p>
             </div>

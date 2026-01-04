@@ -1,10 +1,10 @@
 import { useDispatch } from "react-redux";
-import DropDown from "../components/DropDown";
-import { logout } from "../store/authSlice";
-import DropdownItem from "../components/DropdownItem";
-import ProfileIcon from './../assets/images/user.png';
-import CartIcon from './../assets/images/cart.png';
-import DownArrowIcon from './../assets/images/down-arrow.png';
+import DropDown from "../ui/DropDown";
+import { logout } from "../../features/auth/store/authSlice";
+import DropdownItem from "../ui/DropdownItem";
+import ProfileIcon from '../../assets/images/user.png';
+import CartIcon from '../../assets/images/cart.png';
+import DownArrowIcon from '../../assets/images/down-arrow.png';
 
 export default function ProfileMenu() {
     const dispatch = useDispatch()
