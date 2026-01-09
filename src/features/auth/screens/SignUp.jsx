@@ -1,5 +1,3 @@
-import showEye from '../../../assets/icons/password-show.png';
-import hideEye from '../../../assets/icons/password-hide.png';
 import { useState } from 'react';
 import useValidators from '../validations/authValidators';
 import { Toaster, toast } from 'react-hot-toast';
@@ -112,7 +110,7 @@ export default function SignUp() {
                     className="h-[40xpx] rounded-md border border-gray-200 pl-2 h-[40px]"
                 />
                 <img
-                    src={showPassword ? showEye : hideEye}
+                    src={showPassword ? "/icons/password-show.png" : "/icons/password-hide.png"}
                     className="h-4 w-4 absolute right-2 top-9"
                     onClick={() => setShowPassword(!showPassword)} />
                 {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
@@ -132,7 +130,7 @@ export default function SignUp() {
                     onBlur={() => validatePassword(confirmPassword)}
                     className="h-[40xpx] rounded-md border border-gray-200 pl-2 h-[40px]"
                 />
-                <img src={showConfirmPassword ? showEye : hideEye} className="h-4 w-4 absolute right-2 top-9" onClick={() => setShowConfirmPassword(!showConfirmPassword)} />
+                <img src={showConfirmPassword ? "/icons/password-show.png" : "/icons/password-hide.png"} className="h-4 w-4 absolute right-2 top-9" onClick={() => setShowConfirmPassword(!showConfirmPassword)} />
                 {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
                 {(password && confirmPassword) && password != confirmPassword ? <p className="text-red-500 text-sm mt-1">Passwords do not match</p> : null}
 

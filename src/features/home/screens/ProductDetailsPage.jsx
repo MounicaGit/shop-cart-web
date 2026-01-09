@@ -1,0 +1,96 @@
+import { useLocation } from "react-router";
+import ProductDetails from "../components/ProductDetails";
+import { deals } from "../services/deals"
+import { useState } from 'react';
+import Button from '../../../components/ui/Button'
+import CartIcon from '/icons/cart.png'
+
+export default function ProductDetailsPage() {
+    const { state } = useLocation();
+    const item = state?.item;
+    const [selectedProductImgIndex, setSelectedProductImgIndex] = useState(0);
+    console.log("item=>", item);
+
+    function renderProductImage() {
+        return (
+            <div className="h-auto w-[full] min-w-[600px] relative">
+                <img src={`/images/${item.allProductImagesUrl[selectedProductImgIndex]}`} className="h-[600px] w-[600px]" />
+                <div className="inline-flex px-1 flex-row bg-green-600 ml-2 rounded-sm justify-start items-center mr-1 absolute top-3">
+                    <p className="text-white text-[10px]">{item.discount}% OFF</p></div>
+                <div className="bg-white rounded-2xl absolute top-3 right-12 p-2"><img src="/icons/heart.png" className="h3 w-3" /></div>
+                <div className="bg-white rounded-2xl absolute top-3 right-3 p-2"><img src="/icons/share.png" className="h3 w-3" /></div>
+            </div>
+        )
+    }
+
+    function renderAllProductImages() {
+        return (
+            <ul className="flex flex-row gap-2 p-2">
+                {
+                    item.allProductImagesUrl.map((img, index) => (
+                        <li onClick={() => setSelectedProductImgIndex(index)}>
+                            <img src={`/images/${img}`}
+                                className={`h-[60px] w-[60px] border-2 ${selectedProductImgIndex == index ? "border-blue-700" : ""} rounded-sm`} /></li>
+                    ))
+                }
+            </ul>
+        )
+    }
+
+    function renderDeliveryDetailsView() {
+        return (
+            <div>
+                {
+                    <ul className="flex flex-col gap-1 pt-2">
+                        {item.deliveryDetails.map((img, index) => (
+                            <li>{renderDeliverDetail(img)}</li>
+                        ))}
+                    </ul>
+                }
+            </div>
+        )
+    }
+
+    function renderDeliverDetail(item) {
+        console.log(`img=>>/icons/${item.imageUrl}`)
+        return (
+            <div className="flex flex-row gap-4 p-2 justify-start items-start">
+                <img src={`/icons/${item.imageUrl}`} className="h-5 w-5 mt-1" />
+                <div className="flex flex-col gap-1">
+                    <p className="text-md">{item.deliveryData}</p>
+                    <p className="text-xs text-gray-500">{item.timePeriod}</p>
+                </div>
+            </div>
+        )
+    }
+
+    function renderButtons() {
+        return (
+            <div className="flex flex-row justify-center items-center">
+                <Button
+                    onClick={() => { }}
+                ><div>
+                        <img src={CartIcon} className="h-4 w-4" />
+                        <p>Add to Cart</p></div></Button>
+                <Button
+                    onClick={() => { }}
+                ><div>
+                        <img src={CartIcon} className="h-4 w-4" />
+                        <p>Buy Now</p></div></Button>
+            </div>
+        )
+    }
+
+    return (
+        <div className="flex flex-col items-center">
+            <div className="flex flex-col items-start">
+                {renderProductImage()}
+                {renderAllProductImages()}
+                <ProductDetails item={item} />
+                <hr className="w-[50%]" />
+                {renderDeliveryDetailsView()}
+                {renderButtons()}
+            </div>
+        </div>
+    )
+}

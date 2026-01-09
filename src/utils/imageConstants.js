@@ -4,3 +4,6 @@ export const smartPhone = 'smartphone.jpg';
 export const jeans = 'jeans.jpg';
 export const shoes = 'shoes.jpg';
 export const backpack = 'backpack.jpg';
+export const deliveryTruck = "delivery-truck.png"
+export const returnPolicy = 'return-policy.png';
+export const warranty = 'warranty.png';

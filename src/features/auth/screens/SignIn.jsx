@@ -1,6 +1,4 @@
 import { useState } from "react";
-import showEyeIcon from "../../../assets/icons/password-show.png";
-import hideEyeIcon from "../../../assets/icons/password-hide.png";
 import useValidators from '../validations/authValidators';
 import { useNavigate } from "react-router";
 import toast, { Toaster } from "react-hot-toast";
@@ -66,7 +64,7 @@ export default function SignIn() {
                 />
                 <img
                     className="w-4 h-4 absolute right-2 top-11"
-                    src={showPassword ? showEyeIcon : hideEyeIcon}
+                    src={showPassword ? "/icons/password-show.png" : "/icons/password-hide.png"}
                     alt="eye-toggle"
                     onClick={() => setShowPassword(!showPassword)} />
                 {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}

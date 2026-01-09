@@ -1,9 +1,3 @@
-
-import SearchIcon from '../../assets/icons/search.png';
-import ProfileIcon from '../../assets/icons/user.png';
-import CartIcon from '../../assets/icons/cart.png';
-import DownArrowIcon from '../../assets/icons/down-arrow.png';
-
 import ProfileMenu from "./ProfileMenu";
 
 export default function HeaderBar() {
@@ -19,13 +13,13 @@ export default function HeaderBar() {
                         placeholder="Search for Products, Brands and More.."
 
                     />
-                    <img src={SearchIcon} className="h-4 w-4 absolute bottom-3 left-8" />
+                    <img src="/icons/search.png" className="h-4 w-4 absolute bottom-3 left-8" />
                 </div>
             </div>
             <div className="flex gap-5 ml-auto mr-10">
                 <ProfileMenu />
                 <div className="flex flex-row gap-2 items-center">
-                    <img src={CartIcon} className="h-5 w-5 " />
+                    <img src="/icons/cart.png" className="h-5 w-5 " />
                     <p className="text-white">Cart</p>
                 </div>
             </div>
