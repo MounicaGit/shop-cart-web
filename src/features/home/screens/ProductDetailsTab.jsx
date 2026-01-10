@@ -11,15 +11,7 @@ export default function ProductDetailsTab() {
 
     return (
         <div>
-            {
-                [spec.entries].map(([key, value]) => {
-                    <div className="flex flex-row gap-auto justify-space-between">
-                        <p className="text-gray-500">{key}</p>
-                        <p>{value}</p>
-                        <hr />
-                    </div>
-                })
-            }
+       
 
         </div>
     )

@@ -1,12 +1,9 @@
-import StarIcon from '/icons/star.png'
-
 export default function ProductReviewsTab() {
     return (
-        <div>
-            <div className="flex flex-col justify-center items-center">
-                <img src={StarIcon} className='h-10 w-10' />
-                <p className="text-md text-gray-500">No reviews yet</p>
-            </div>
+        <div className="w-[600px] flex flex-col justify-center items-center p-5">
+            <img src="/icons/star_gray.png" className='h-[40px] w-[40px]' />
+            <p className="text-sm text-gray-500">No reviews yet</p>
+
         </div>
     )
 }

@@ -1,17 +1,29 @@
-import { useLocation } from "react-router";
+import { Route, Routes, useLocation, Navigate, Outlet, useParams } from "react-router-dom";
 import ProductDetails from "../components/ProductDetails";
 import { deals } from "../services/deals"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '../../../components/ui/Button'
-import CartIcon from '/icons/cart.png'
+import RouterTabs from "../../../components/ui/RouterTabs";
+import ProductDetailsTab from "./ProductDetailsTab";
+import ProductSpecificationsTab from "./ProductSpecificationsTab";
+import ProductReviewsTab from "./ProductReviewsTab";
 
 export default function ProductDetailsPage() {
-    const { state } = useLocation();
-    const item = state?.item;
+    // const { state } = useLocation();
+    // var item = state?.item;
+    const { id } = useParams();
+    const item = deals.find((item) => item.id === Number(id));
     const [selectedProductImgIndex, setSelectedProductImgIndex] = useState(0);
-    console.log("item=>", item);
+    console.log("item=>", item)
+    const tabs = [
+        { label: "Details", path: "details", },
+        { label: "Specifications", path: "specifications", },
+        { label: "Reviews", path: "reviews", },
+    ]
 
     function renderProductImage() {
+        if (!item)
+            return;
         return (
             <div className="h-auto w-[full] min-w-[600px] relative">
                 <img src={`/images/${item.allProductImagesUrl[selectedProductImgIndex]}`} className="h-[600px] w-[600px]" />
@@ -66,30 +78,39 @@ export default function ProductDetailsPage() {
 
     function renderButtons() {
         return (
-            <div className="flex flex-row justify-center items-center">
-                <Button
+            <div className="flex flex-row fixed bottom-0 bg-white w-[600px] justify-between gap-2 pb-5">
+                <Button className="flex-1 bg-blue-700 justify-center items-center p-3 rounded-md"
+                    onClick={() => { }}
+                ><div className="flex flex-row gap-2 justify-center">
+                        <img src="/icons/cart.png" className="h-4 w-4 mt-1" />
+                        <p className="text-white">Add to Cart</p></div></Button>
+                <Button className="flex-1 bg-orange-500 justify-center items-center p-3 rounded-md"
                     onClick={() => { }}
                 ><div>
-                        <img src={CartIcon} className="h-4 w-4" />
-                        <p>Add to Cart</p></div></Button>
-                <Button
-                    onClick={() => { }}
-                ><div>
-                        <img src={CartIcon} className="h-4 w-4" />
-                        <p>Buy Now</p></div></Button>
+                        <p className="text-white">Buy Now</p></div></Button>
+            </div>
+        )
+    }
+
+    function renderTabView() {
+        return (
+            <div>
+                <RouterTabs tabs={tabs} basePath={`/product-details/${Number(id)}`} />
+                <Outlet />
             </div>
         )
     }
 
     return (
-        <div className="flex flex-col items-center">
-            <div className="flex flex-col items-start">
+        <div className="flex flex-col items-center ">
+            <div className="flex flex-col items-start pb-[80px]">
                 {renderProductImage()}
                 {renderAllProductImages()}
                 <ProductDetails item={item} />
                 <hr className="w-[50%]" />
                 {renderDeliveryDetailsView()}
                 {renderButtons()}
+                {renderTabView()}
             </div>
         </div>
     )

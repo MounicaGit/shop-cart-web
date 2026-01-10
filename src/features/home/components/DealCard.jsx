@@ -9,7 +9,7 @@ export default function DealCard({ item }) {
 
     return (
         <a
-            onClick={() => navigate("/product-details", { state: { item: item } })}
+            onClick={() => navigate(`/product-details/${item.id}`, { state: { item: item } })}
         ><div className="flex-shrink-0 flex flex-col w-[180px] bg-white rounded-md shadow-md relative">
                 <img src={(`/images/${item.imageUrl}`)} className="h-[180px] w-[180px] rounded-t-md" />
                 <div className="flex flex-col p-3 gap-2">
