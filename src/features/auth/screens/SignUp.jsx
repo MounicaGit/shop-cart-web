@@ -179,7 +179,7 @@ export default function SignUp() {
         return (
             <div>
                 <Button
-                    className="bg-blue-700 py-2 w-[100%] disabled:opacity-50 hover:bg-blue-400 rounded-md text-white mt-8"
+                    className="bg-blue-700 py-2 w-[100%] disabled:opacity-50 hover:opacity-[50%] rounded-md text-white mt-8"
                     disabled={!fullName || !phone || !email || !password || !confirmPassword || fullNameError || emailError || phoneError || passwordError || (password != confirmPassword) || !acceptTnC}
                     onClick={() => handleRegister()} >Sign Up</Button>
             </div >

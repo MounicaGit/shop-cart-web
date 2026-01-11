@@ -9,8 +9,9 @@ export default function Deals() {
     const deals = useSelector((state) => state.product.deals) || [];
 
     useEffect(() => {
-        dispatch(getDeals())
-    }, [])
+        if (deals.length == 0)
+            dispatch(getDeals())
+    }, [deals.length, dispatch])
 
     function renderDeals() {
         return (

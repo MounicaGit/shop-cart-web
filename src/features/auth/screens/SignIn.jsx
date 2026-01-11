@@ -85,7 +85,7 @@ export default function SignIn() {
     function renderSignInButton() {
         return (
             <Button
-                className="bg-blue-700 py-2 w-[100%] disabled:opacity-50 hover:bg-blue-400 rounded-md text-white mt-8"
+                className="bg-blue-700 py-2 w-[100%] disabled:opacity-50 hover:opacity-[50%] rounded-md text-white mt-8"
                 disabled={emailError || passwordError}
                 onClick={() => handleLogin()}
             >
