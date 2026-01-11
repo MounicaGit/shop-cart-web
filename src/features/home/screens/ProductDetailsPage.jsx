@@ -47,7 +47,7 @@ export default function ProductDetailsPage() {
                 <div className="inline-flex px-1 flex-row bg-green-600 ml-2 rounded-sm justify-start items-center mr-1 absolute top-3">
                     <p className="text-white text-[10px]">{item.discount}% OFF</p></div>
                 <button onClick={() => { dispatch(updateItemWishlist(item.id)) }} ><div className="bg-white rounded-2xl absolute top-3 right-12 p-2"><img src={`/icons/${item.isWishlisted ? "heart_red.png" : "heart.png"} `} className="h3 w-3" /></div></button>
-                <div className="bg-white rounded-2xl absolute top-3 right-3 p-2"><img src="/icons/share.png" className="h3 w-3" /></div>
+                <button onClick={() => toast.success("Product details shared!")}><div className="bg-white rounded-2xl absolute top-3 right-3 p-2"><img src="/icons/share.png" className="h3 w-3" /></div></button>
             </div>
         )
     }
@@ -121,8 +121,8 @@ export default function ProductDetailsPage() {
     function handleAddToCart() {
         dispatch(addToCart(item.id));
         if (!item.isAddedToCart)
-            toast.success("Item added to cart!")
-        else toast.error("Item removed from cart!")
+            toast.success("Item added to cart!!")
+        else toast.error("Item removed from cart!!")
     }
 
     function renderButtons() {

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { deals } from '../services/deals'
 
-const initialState = { deals: [] }
+const initialState = { deals: [], allDeals: [] }
 const productSlice = createSlice({
     name: "product",
     initialState: initialState,
@@ -12,6 +12,7 @@ const productSlice = createSlice({
                 dealsData.push(item)
             })
             console.log("deals=>", dealsData)
+            state.allDeals = dealsData;
             state.deals = dealsData;
         },
         updateItemWishlist: (state, action) => {
@@ -25,11 +26,19 @@ const productSlice = createSlice({
         updateItemQty: (state, action) => {
             const item = state.deals.find((item) => item.id === action.payload.id)
             item.qty = action.payload.qty;
+        },
+        filterDeals: (state, action) => {
+            if (action.payload) {
+                const filteredDeals = state.allDeals.filter((item) => item.name.toLowerCase().includes(action.payload.toLowerCase()))
+                state.deals = filteredDeals
+            }
+            else
+                state.deals = state.allDeals;
         }
     }
 }
 );
 
-export const { getDeals, updateItemWishlist, addToCart, updateItemQty } = productSlice.actions;
+export const { getDeals, updateItemWishlist, addToCart, updateItemQty, filterDeals } = productSlice.actions;
 
 export default productSlice.reducer;

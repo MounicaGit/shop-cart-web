@@ -15,9 +15,9 @@ export default function DealCard({ item }) {
         e.stopPropagation();
         dispatch(addToCart(item.id))
         if (!item.isAddedToCart)
-            toast.success("Item added to cart!")
+            toast.success("Item added to cart!!")
         else
-            toast.error("Item removed from cart!")
+            toast.error("Item removed from cart!!")
     }
 
     function handleUpdateWishlist(e) {
@@ -26,10 +26,10 @@ export default function DealCard({ item }) {
     }
 
     return (
-        <div
+        <div className="mb-5"
             onClick={() => navigate(`/product-details/${item.id}`, { state: { item: item } })}
-        ><div className="flex-shrink-0 flex flex-col w-[180px] bg-white rounded-md shadow-md relative">
-                <img src={(`/images/${item.imageUrl}`)} className="h-[180px] w-[180px] rounded-t-md" />
+        ><div className="flex-shrink-0 flex flex-col w-[200px] bg-white rounded-md shadow-md relative">
+                <img src={(`/images/${item.imageUrl}`)} className="h-[200px] w-[200px] rounded-t-md" />
                 <div className="flex flex-col p-3 gap-2">
                     <ProductDetails item={item} />
                     <Button onClick={(e) => { handleAddToCart(e) }}

@@ -16,7 +16,7 @@ export default function RouterTabs({ tabs, className, basePath }) {
                                 : "border-b-2 border-transparent"
                             }`
                         }
-                    >
+                    replace >
                         {tab.label}
                     </NavLink>
                 ))}
