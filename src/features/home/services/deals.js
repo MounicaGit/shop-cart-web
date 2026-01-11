@@ -22,6 +22,13 @@ export const deals = [{
         connectivity: "Bluetooth 5.0",
         weight: "250g",
     },
+    details: "Very best product in the market",
+    reviews: [
+        // { name: "Govind", review: "nice product", rating: "3.5" },
+        // { name: "Ram", review: "good product", rating: "4.5" },
+        // { name: "Venkat", review: "bad product", rating: "4.0" },
+        // { name: "Siva", review: "not bad product", rating: "2.5" },
+    ]
 },
 {
     id: 2,
@@ -44,7 +51,13 @@ export const deals = [{
         connectivity: "Bluetooth 5.0",
         weight: "250g",
     },
-
+    details: "Very best product in the market",
+    reviews: [
+        { name: "Govind", review: "nice product", rating: "3.5" },
+        { name: "Ram", review: "good product", rating: "4.5" },
+        { name: "Venkat", review: "bad product", rating: "4.0" },
+        { name: "Siva", review: "not bad product", rating: "2.5" },
+    ]
 },
 {
     id: 3,
@@ -67,7 +80,13 @@ export const deals = [{
         connectivity: "Bluetooth 5.0",
         weight: "250g",
     },
-
+    details: "Very best product in the market",
+    reviews: [
+        { name: "Govind", review: "nice product", rating: "3.5" },
+        { name: "Ram", review: "good product", rating: "4.5" },
+        { name: "Venkat", review: "bad product", rating: "4.0" },
+        { name: "Siva", review: "not bad product", rating: "2.5" },
+    ]
 },
 {
     id: 4,
@@ -90,7 +109,13 @@ export const deals = [{
         connectivity: "Bluetooth 5.0",
         weight: "250g",
     },
-
+    details: "Very best product in the market",
+    reviews: [
+        { name: "Govind", review: "nice product", rating: "3.5" },
+        { name: "Ram", review: "good product", rating: "4.5" },
+        { name: "Venkat", review: "bad product", rating: "4.0" },
+        { name: "Siva", review: "not bad product", rating: "2.5" },
+    ]
 },
 {
     id: 5,
@@ -113,7 +138,13 @@ export const deals = [{
         connectivity: "Bluetooth 5.0",
         weight: "250g",
     },
-
+    details: "Very best product in the market",
+    reviews: [
+        { name: "Govind", review: "nice product", rating: "3.5" },
+        { name: "Ram", review: "good product", rating: "4.5" },
+        { name: "Venkat", review: "bad product", rating: "4.0" },
+        { name: "Siva", review: "not bad product", rating: "2.5" },
+    ]
 },
 {
     id: 6,
@@ -136,6 +167,12 @@ export const deals = [{
         connectivity: "Bluetooth 5.0",
         weight: "250g",
     },
-
+    details: "Very best product in the market",
+    reviews: [
+        { name: "Govind", review: "nice product", rating: "3.5" },
+        { name: "Ram", review: "good product", rating: "4.5" },
+        { name: "Venkat", review: "bad product", rating: "4.0" },
+        { name: "Siva", review: "not bad product", rating: "2.5" },
+    ]
 },
 ]

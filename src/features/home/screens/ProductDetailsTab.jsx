@@ -1,18 +1,13 @@
 import { useState } from "react";
 import { deals } from "../services/deals"
+import { useOutletContext } from "react-router";
 
 export default function ProductDetailsTab() {
-    const spec = {
-        brand: "AudioTech",
-        batteryLife: "30 hours",
-        connectivity: "Bluetooth 5.0",
-        weight: "250g",
-    };
+    const { details } = useOutletContext();
 
     return (
         <div>
-       
-
+            <p className="p-3 text-sm">{details}</p>
         </div>
     )
 }

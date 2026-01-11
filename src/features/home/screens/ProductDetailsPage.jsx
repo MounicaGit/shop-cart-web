@@ -42,7 +42,7 @@ export default function ProductDetailsPage() {
                     item.allProductImagesUrl.map((img, index) => (
                         <li onClick={() => setSelectedProductImgIndex(index)}>
                             <img src={`/images/${img}`}
-                                className={`h-[60px] w-[60px] border-2 ${selectedProductImgIndex == index ? "border-blue-700" : ""} rounded-sm`} /></li>
+                                className={`h-[70px] w-[70px] border-2 ${selectedProductImgIndex == index ? "border-blue-700" : ""} rounded-sm`} /></li>
                     ))
                 }
             </ul>
@@ -96,7 +96,7 @@ export default function ProductDetailsPage() {
         return (
             <div>
                 <RouterTabs tabs={tabs} basePath={`/product-details/${Number(id)}`} />
-                <Outlet />
+                <Outlet context={item} />
             </div>
         )
     }

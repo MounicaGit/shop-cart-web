@@ -1,12 +1,11 @@
-export default function ProductDetails({item}) {
+import Rating from "../../../components/ui/Rating";
+
+export default function ProductDetails({ item }) {
     return (
         <div className="flex flex-col p-3 gap-2">
             <p className="text-sm">{item.name}</p>
             <div className="flex flex-row">
-                <div className="inline-flex px-1 flex-row bg-green-600 rounded-sm justify-start items-center mr-1">
-                    <p className="text-white pr-1 text-[10px]">{item.rating}</p>
-                    <img src="/icons/star.png" className="h-2 w-2" />
-                </div>
+                <Rating rating={item.rating} />
                 <p className="text-[10px] text-gray-500">({item.ratingCount})</p>
             </div>
             <div className="flex flex-row items-center">
