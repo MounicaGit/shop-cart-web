@@ -17,7 +17,7 @@ export default function Deals() {
             <ul className=" flex flex-row mt-3 gap-3 overflow-x-auto scrollbar-hide">
                 {
                     deals.map((item, index) => (
-                        <li className="">{<DealCard key={index} item={item} />}</li>
+                        <li key={item.id} className="">{<DealCard key={index} item={item} />}</li>
                     ))
                 }
             </ul>

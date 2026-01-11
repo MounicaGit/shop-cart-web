@@ -18,7 +18,7 @@ export default function DealCard({ item }) {
                         className="bg-blue-700 py-2 w-[100%] disabled:opacity-50 hover:bg-blue-400 rounded-md text-white mt-2">Add to Cart</Button>
                     <div className="inline-flex px-1 flex-row bg-green-600 rounded-sm justify-start items-center mr-1 absolute top-3">
                         <p className="text-white text-[10px]">{item.discount}% OFF</p></div>
-                    <div className="bg-white rounded-2xl absolute top-3 right-3 p-2"><img src="/icons/heart.png" className="h3 w-3" /></div>
+                    <div className="bg-white rounded-2xl absolute top-3 right-3 p-2"><img src={`/icons/${item.isWishlisted ? "heart_red.png" : "heart.png"}`} className="h3 w-3" /></div>
                 </div>
             </div></a>
     )
