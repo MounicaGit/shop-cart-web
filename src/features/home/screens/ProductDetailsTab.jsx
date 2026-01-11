@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { deals } from "../services/deals"
 import { useOutletContext } from "react-router";
 
 export default function ProductDetailsTab() {

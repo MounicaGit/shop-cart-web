@@ -1,11 +1,18 @@
-import { deals } from "../services/deals"
 import { useNavigate } from "react-router"
 import DealCard from "./DealCard"
+import { useDispatch, useSelector } from "react-redux"
+import { useEffect } from "react";
+import { getDeals } from "../store/productSlice";
 
 export default function Deals() {
+    const dispatch = useDispatch();
+    const deals = useSelector((state) => state.product.deals) || [];
+
+    useEffect(() => {
+        dispatch(getDeals())
+    }, [])
 
     function renderDeals() {
-        console.log("deals=>", deals)
         return (
             <ul className=" flex flex-row mt-3 gap-3 overflow-x-auto scrollbar-hide">
                 {

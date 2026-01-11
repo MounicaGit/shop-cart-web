@@ -1,17 +1,18 @@
 import { Route, Routes, useLocation, Navigate, Outlet, useParams } from "react-router-dom";
 import ProductDetails from "../components/ProductDetails";
-import { deals } from "../services/deals"
 import { useEffect, useState } from 'react';
 import Button from '../../../components/ui/Button'
 import RouterTabs from "../../../components/ui/RouterTabs";
 import ProductDetailsTab from "./ProductDetailsTab";
 import ProductSpecificationsTab from "./ProductSpecificationsTab";
 import ProductReviewsTab from "./ProductReviewsTab";
+import { useSelector } from "react-redux";
 
 export default function ProductDetailsPage() {
     // const { state } = useLocation();
     // var item = state?.item;
     const { id } = useParams();
+    const deals = useSelector((state) => state.product.deals)
     const item = deals.find((item) => item.id === Number(id));
     const [selectedProductImgIndex, setSelectedProductImgIndex] = useState(0);
     console.log("item=>", item)
