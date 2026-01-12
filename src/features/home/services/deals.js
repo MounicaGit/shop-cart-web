@@ -1,4 +1,4 @@
-import { backpack, deliveryTruck, headphones, jeans, returnPolicy, shoes, smartPhone, smartWatch, warranty, } from "../../../utils/imageConstants";
+import { backpack, deliveryTruck, headphones, jeans, returnPolicy, shoes, smartPhone, smartWatch, warranty, } from "../../../utils/constants/imageConstants";
 
 export const deals = [
     {

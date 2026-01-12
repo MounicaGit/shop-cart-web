@@ -9,6 +9,8 @@ import ProductReviewsTab from "./ProductReviewsTab";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, updateItemQty, updateItemWishlist } from "../store/productSlice";
 import { Toaster, toast } from "react-hot-toast";
+import QtyCounter from "../../../components/ui/QtyCounter";
+import CommonHeader from "../../../components/layout/CommonHeader";
 
 export default function ProductDetailsPage() {
     // const { state } = useLocation();
@@ -26,18 +28,6 @@ export default function ProductDetailsPage() {
     var [counter, setCounter] = useState(1);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    function renderHeaderBar() {
-        return (
-            <div className="fixed top flex flex-row bg-blue-700 p-4 justify-between items-center w-full relative">
-                <button className="h-5 w-5" onClick={() => { navigate(-1) }}><img src="/icons/back-arrow.png" /></button>
-                <button className="h-5 w-5 mr-4" onClick={() => { }}><img src="/icons/cart.png" /></button>
-                {
-                    (item.quantity != 0) ? <div className="bg-red-500 rounded-2xl h-4 w-4 text-center text-white text-[10px] absolute right-5 top-3">{item.qty}</div> : null
-                }
-
-            </div>
-        )
-    }
     function renderProductImage() {
         if (!item)
             return;
@@ -102,22 +92,6 @@ export default function ProductDetailsPage() {
         dispatch(updateItemQty({ qty: (item.qty) + 1, id: item.id }))
     }
 
-    function renderCounter() {
-        return (
-            <div className="flex flex-row items-center justify-center mr-5">
-                <button className="border border-gray-200 rounded-tl-md rounded-bl-md h-10 w-10 justify-center items-center " onClick={() => incrementQty()}>
-                    <p className={`text-center ${item.qty == 1 ? "text-gray-300" : ""}`}>-</p>
-                </button>
-                <div className="border-t border-b border-gray-200 h-10 w-10 h-10 w-10 justify-center items-center ">
-                    <p className="text-center mt-2">{item.qty}</p>
-                </div>
-                <button className="border border-gray-200 rounded-tr-md rounded-br-md h-10 w-10 h-10 w-10 justify-center items-center cursor-pointer" onClick={() => decrementQty()}>
-                    <p className="text-center">+</p>
-                </button>
-            </div >
-        )
-    }
-
     function handleAddToCart() {
         dispatch(addToCart(item.id));
         if (!item.isAddedToCart)
@@ -128,7 +102,7 @@ export default function ProductDetailsPage() {
     function renderButtons() {
         return (
             <div className="flex flex-row fixed bottom-0 bg-white w-[600px] justify-between gap-2 pb-5">
-                {renderCounter()}
+                <QtyCounter qty={item.qty} incrementQty={incrementQty} decrementQty={decrementQty} />
                 <Button className={`flex-1 ${item.isAddedToCart ? " bg-red-500" : "bg-blue-700"} justify-center items-center p-3 rounded-md`}
                     onClick={() => { }}
                 ><div className="flex flex-row gap-2 justify-center">
@@ -153,7 +127,7 @@ export default function ProductDetailsPage() {
 
     return (
         <div className="flex flex-col items-center ">
-            {renderHeaderBar()}
+            <CommonHeader qty={item.qty} />
             <div className="flex flex-col items-start pb-[80px]">
 
                 {renderProductImage()}

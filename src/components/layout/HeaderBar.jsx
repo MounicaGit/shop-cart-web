@@ -3,10 +3,12 @@ import ProfileMenu from "./ProfileMenu";
 import { debounce } from "lodash";
 import { useDispatch } from "react-redux";
 import { filterDeals } from "../../features/home/store/productSlice";
+import { useNavigate } from "react-router";
 
 export default function HeaderBar() {
     const [searchText, setSearchText] = useState("");
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     function handleSearch(e) {
         setSearchText(e.target.value);
@@ -36,7 +38,7 @@ export default function HeaderBar() {
             </div>
             <div className="flex gap-5 ml-auto mr-10">
                 <button><ProfileMenu /></button>
-                <button className="flex flex-row gap-2 items-center">
+                <button onClick={() => navigate("/cart")} className="flex flex-row gap-2 items-center">
                     <img src="/icons/cart.png" className="h-5 w-5 " />
                     <p className="text-white">Cart</p>
                 </button>

@@ -10,6 +10,7 @@ import ProductDetailsPage from '../features/home/screens/ProductDetailsPage';
 import ProductDetailsTab from '../features/home/screens/ProductDetailsTab';
 import ProductSpecificationsTab from '../features/home/screens/ProductSpecificationsTab';
 import ProductReviewsTab from '../features/home/screens/ProductReviewsTab';
+import CartPage from '../features/cart/screens/CartPage';
 
 export default function AppRoutes() {
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
@@ -25,6 +26,7 @@ export default function AppRoutes() {
                 <Route path="specifications" element={<ProductSpecificationsTab />} />
                 <Route path="reviews" element={<ProductReviewsTab />} />
             </Route>
+            <Route path="/cart" element={<CartPage />} />
         </Routes>
 
     )
