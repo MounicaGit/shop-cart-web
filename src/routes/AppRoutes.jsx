@@ -11,12 +11,15 @@ import ProductDetailsTab from '../features/home/screens/ProductDetailsTab';
 import ProductSpecificationsTab from '../features/home/screens/ProductSpecificationsTab';
 import ProductReviewsTab from '../features/home/screens/ProductReviewsTab';
 import CartPage from '../features/cart/screens/CartPage';
+import CheckoutAddress from '../features/cart/screens/CheckOutAddress';
+import CheckoutPayment from '../features/cart/screens/CheckoutPayment';
+import Checkout from '../features/cart/screens/Checkout';
 
 export default function AppRoutes() {
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
     return (
         <Routes>
-            <Route path="/" element={isAuthenticated ? <Navigate to="/home" /> : <SignIn />} />
+            <Route path="/" element={isAuthenticated ? <Navigate to="/checkout" /> : <SignIn />} />
             <Route path="login" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/home" element={<PrivateRoute> <Home /></PrivateRoute>} />
@@ -27,6 +30,9 @@ export default function AppRoutes() {
                 <Route path="reviews" element={<ProductReviewsTab />} />
             </Route>
             <Route path="/cart" element={<CartPage />} />
+            <Route path="/checkout-address" element={<CheckoutAddress />} />
+            <Route path="/checkout-payment" element={<CheckoutPayment />} />
+            <Route path="/checkout" element={<Checkout />} />
         </Routes>
 
     )
