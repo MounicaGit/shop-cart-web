@@ -7,6 +7,7 @@ export default function TextAreaField({ rows = 1, type, placeholder, value, onCh
             onChange={onChange}
             onBlur={onBlur}
             max={maxLines}
+            rows={maxLines}
             className={className}
         />
     )

@@ -30,8 +30,8 @@ export default function AppRoutes() {
                 <Route path="reviews" element={<ProductReviewsTab />} />
             </Route>
             <Route path="/cart" element={<CartPage />} />
-            <Route path="/checkout-address" element={<CheckoutAddress />} />
-            <Route path="/checkout-payment" element={<CheckoutPayment />} />
+            {/* <Route path="/checkout-address" element={<CheckoutAddress />} />
+            <Route path="/checkout-payment" element={<CheckoutPayment />} /> */}
             <Route path="/checkout" element={<Checkout />} />
         </Routes>
 

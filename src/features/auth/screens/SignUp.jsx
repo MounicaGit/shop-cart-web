@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import useValidators from '../validations/authValidators';
 import { Toaster, toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { signUp } from '../store/authSlice';
 import Button from '../../../components/ui/Button';
 import CheckBox from '../../../components/ui/Checkbox';
+import useValidators from '../../../utils/validations/validators';
 
 export default function SignUp() {
 

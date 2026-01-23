@@ -34,7 +34,8 @@ export default function Checkout() {
         return <div className="flex-1 h-px bg-gray-300 mx-2" />;
     }
 
-    function updateStep(step) {
+    function handleUpdateStep(step) {
+        console.log("step=>", step)
         setStep(step)
     }
 
@@ -44,10 +45,10 @@ export default function Checkout() {
             <h1 className="text-lg font-semibold">Checkout</h1>
             {renderStepper()}
             {step == 1
-                ? <CheckoutAddress updateStep={updateStep} />
+                ? <CheckoutAddress updateStep={handleUpdateStep} />
                 : step == 2
-                    ? <CheckoutPayment updateStep={updateStep} />
-                    : <CheckoutAddress updateStep={updateStep} />
+                    ? <CheckoutPayment updateStep={handleUpdateStep} />
+                    : null
             }
         </div>
     )

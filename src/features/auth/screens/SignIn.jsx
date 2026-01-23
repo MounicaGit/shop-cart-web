@@ -1,5 +1,4 @@
 import { useState } from "react";
-import useValidators from '../validations/authValidators';
 import { useNavigate } from "react-router";
 import toast, { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +6,7 @@ import { login } from "../store/authSlice";
 import Button from "../../../components/ui/Button";
 import TextField from "../../../components/ui/TextField";
 import CheckBox from "../../../components/ui/Checkbox";
+import useValidators from "../../../utils/validations/validators";
 
 
 export default function SignIn() {
