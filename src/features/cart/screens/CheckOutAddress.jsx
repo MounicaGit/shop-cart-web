@@ -1,20 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TextField from "../../../components/ui/TextField";
 import TextAreaField from "../../../components/ui/TextArea";
 import useValidators from "../../../utils/validations/validators";
 
-export default function CheckoutAddress({ updateStep }) {
+export default function CheckoutAddress({ updateStep, setIsValidForm }) {
     const [fullName, setFullName] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [address, setAddress] = useState("");
     const [state, setState] = useState("");
     const [city, setCity] = useState("");
     const [pincode, setPincode] = useState("");
-    const { fullNameError, phoneError, pincodeError,validateFullName, validatePhone, validatePincode } = useValidators();
+    const { fullNameError, phoneError, pincodeError, validateFullName, validatePhone, validatePincode } = useValidators();
 
     const textFieldClassName = "flex w-full h-[45px] rounded-md border border-gray-200 pl-2 h-[40px] mt-2";
     const textAreaClassName =
         "flex w-full rounded-md border border-gray-200 pl-2 mt-2 resize-none";
+    const isValidForm = (fullNameError || phoneError || address == "" || state == "" || city == "" || pincodeError);
+
+    useEffect(() => {
+        setIsValidForm(!isValidForm)
+    }, [setIsValidForm, isValidForm])
 
     function renderFormFields() {
         return (<div className="px-6 py-8 w-[100%]">
@@ -77,30 +82,9 @@ export default function CheckoutAddress({ updateStep }) {
         </div>)
     }
 
-    function renderFooter() {
-        return (
-            <div className="bg-white border-t px-6 py-10">
-                <div className="max-w-3xl mx-auto flex items-center justify-between gap-4">
-                    <div className="text-sm">
-                        <span className="text-gray-500">Total Amount</span>
-                        <div className="text-lg font-semibold">₹7497</div>
-                    </div>
-
-                    <button
-                        disabled={(fullNameError || phoneError || address == "" || state == "" || city == "" || pincodeError)}
-                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition disabled:opacity-50"
-                    onClick={() => updateStep(2)}>
-                    Continue
-                </button>
-            </div>
-            </div >
-        )
-    }
-
     return (
         <div className="bg-gray-50 flex flex-col">
             {renderFormFields()}
-            {renderFooter()}
         </div>
     );
 }

@@ -1,6 +1,6 @@
 import { set } from "zod";
 import { useState } from "react";
-import { cardExpirySchema, cardNumberSchema, cvvNumberSchema, emailSchema, fullNameSchema, passwordSchema, phoneSchema, pinCodeSchema } from "./vaildationSchemas";
+import { cardExpirySchema, cardNumberSchema, cvvNumberSchema, emailSchema, fullNameSchema, passwordSchema, phoneSchema, pinCodeSchema, upiSchema } from "./vaildationSchemas";
 
 export default function useValidators() {
     const [emailError, setEmailError] = useState("");
@@ -11,6 +11,7 @@ export default function useValidators() {
     const [cardNumberError, setcardNumberError] = useState("");
     const [cvvNumberError, setcvvNumberError] = useState("");
     const [cardExpiryError, setCardExpiryError] = useState("");
+    const [upiError, setupiError] = useState("");
 
     const validateEmail = (value) => {
         const result = emailSchema.safeParse(value);
@@ -60,9 +61,14 @@ export default function useValidators() {
         setCardExpiryError(result.success ? "" : JSON.parse(result.error.message)[0].message);
         return result.success;
     }
+
+    const validateUPI = (value) => {
+        const result = upiSchema.safeParse(value);
+        setupiError(result.success ? "" : JSON.parse(result.error.message)[0].message)
+    }
     return {
         emailError,
-        passwordError, phoneError, fullNameError, pincodeError, cardNumberError, cvvNumberError, cardExpiryError, validateEmail, validateFullName, validatePhone, validatePassword, validatePincode, validateCardNumber, validateCvvNumber,
-        validateExpiry
+        passwordError, phoneError, fullNameError, pincodeError, cardNumberError, cvvNumberError, cardExpiryError, upiError, validateEmail, validateFullName, validatePhone, validatePassword, validatePincode, validateCardNumber, validateCvvNumber,
+        validateExpiry, validateUPI
     }
 }
