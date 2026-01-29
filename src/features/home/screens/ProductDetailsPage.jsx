@@ -11,6 +11,7 @@ import { addToCart, updateItemQty, updateItemWishlist } from "../store/productSl
 import { Toaster, toast } from "react-hot-toast";
 import QtyCounter from "../../../components/ui/QtyCounter";
 import CommonHeader from "../../../components/layout/CommonHeader";
+import { updateCart } from "../../cart/store/cartSlice";
 
 export default function ProductDetailsPage() {
     // const { state } = useLocation();
@@ -94,6 +95,7 @@ export default function ProductDetailsPage() {
 
     function handleAddToCart() {
         dispatch(addToCart(item.id));
+        dispatch(updateCart(item))
         if (!item.isAddedToCart)
             toast.success("Item added to cart!!")
         else toast.error("Item removed from cart!!")

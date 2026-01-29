@@ -19,7 +19,7 @@ export default function AppRoutes() {
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
     return (
         <Routes>
-            <Route path="/" element={isAuthenticated ? <Navigate to="/checkout" /> : <SignIn />} />
+            <Route path="/" element={isAuthenticated ? <Navigate to="/home" /> : <SignIn />} />
             <Route path="login" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/home" element={<PrivateRoute> <Home /></PrivateRoute>} />

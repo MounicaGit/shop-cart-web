@@ -51,13 +51,20 @@ export default function CheckoutPayment({ setIsValidForm }) {
         )
     }
 
+    function handleCardNumber(value) {
+        const rawValue = value.replace(/\s/g, "")
+        validateCardNumber(rawValue); const formattedValue = rawValue
+            .replace(/(.{4})/g, "$1 ")
+            .trim(); setCardNumber(formattedValue)
+    }
+
     function renderCard() {
         return (<div className="max-w-4xl mx-auto bg-white rounded-lg border p-6 space-y-4">
             <TextField
                 placeholder="Card Number"
                 value={cardNumber}
-                maxLength={14}
-                onChange={(e) => { validateCardNumber(e.target.value); setCardNumber(((e.target.value).length == 4 || (e.target.value).length == 9) ? (e.target.value + " ") : e.target.value) }}
+                maxLength={19}
+                onChange={(e) => { handleCardNumber(e.target.value) }}
                 className="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
             {cardNumberError && <p className="text-red-500 text-sm mt-1">{cardNumberError}</p>}
 

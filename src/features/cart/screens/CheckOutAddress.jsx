@@ -3,7 +3,7 @@ import TextField from "../../../components/ui/TextField";
 import TextAreaField from "../../../components/ui/TextArea";
 import useValidators from "../../../utils/validations/validators";
 
-export default function CheckoutAddress({ updateStep, setIsValidForm }) {
+export default function CheckoutAddress({ setIsValidForm }) {
     const [fullName, setFullName] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [address, setAddress] = useState("");
@@ -15,7 +15,7 @@ export default function CheckoutAddress({ updateStep, setIsValidForm }) {
     const textFieldClassName = "flex w-full h-[45px] rounded-md border border-gray-200 pl-2 h-[40px] mt-2";
     const textAreaClassName =
         "flex w-full rounded-md border border-gray-200 pl-2 mt-2 resize-none";
-    const isValidForm = (fullNameError || phoneError || address == "" || state == "" || city == "" || pincodeError);
+    const isValidForm = (fullNameError || phoneError || address == "" || state == "" || city == "" || pincode == "" || pincodeError);
 
     useEffect(() => {
         setIsValidForm(!isValidForm)

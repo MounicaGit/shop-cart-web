@@ -4,29 +4,33 @@ import { cart } from "../services/cart";
 import CommonHeader from "../../../components/layout/CommonHeader";
 import HeaderBar from "../../../components/layout/HeaderBar";
 import QtyCounter from "../../../components/ui/QtyCounter";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 
 export default function CartPage({ onBack, onCheckout }) {
-    const [cartItems, setCartItems] = useState(cart)
+    // const [cartItems, setCartItems] = useState(cart)
     const [couponCode, setCouponCode] = useState("");
+    const products = useSelector((state) => state.productsInCart ?? [])
+    const navigate = useNavigate();
 
     // Update quantity of an item
     const updateQuantity = (index, newValue) => {
-        setCartItems((items) =>
-            items.map((item, i) =>
-                i === index
-                    ? { ...item, qty: Math.max(1, item.qty + newValue) }
-                    : item
-            )
-        );
+        // setCartItems((items) =>
+        //     items.map((item, i) =>
+        //         i === index
+        //             ? { ...item, qty: Math.max(1, item.qty + newValue) }
+        //             : item
+        //     )
+        // );
     };
 
     // Remove item from cart
     const removeItem = (index) => {
-        setCartItems((items) => items.filter((_, i) => i !== index));
+        // setCartItems((items) => items.filter((_, i) => i !== index));
     };
 
     // Price calculations
-    const subtotal = cartItems.reduce(
+    const subtotal = products.reduce(
         (sum, item) => sum + item.discountedPrice * item.quantity,
         0
     );
@@ -35,7 +39,7 @@ export default function CartPage({ onBack, onCheckout }) {
     const total = subtotal - discount + delivery;
 
     // Empty cart UI
-    if (cartItems.length === 0) {
+    if (products.length === 0) {
         return (
             <div className="min-h-screen bg-white">
                 {/* <TopBar variant="cart" onBack={onBack} cartCount={0} /> */}
@@ -59,7 +63,7 @@ export default function CartPage({ onBack, onCheckout }) {
                     <p className="text-gray-600 text-center mb-6">
                         Add items to get started
                     </p>
-                    <Button onClick={onBack}>Start Shopping</Button>
+                    <Button className="bg-blue-700 py-2 px-2 disabled:opacity-50 hover:opacity-[50%] rounded-md text-white mt-8" onClick={() => navigate("/home", { replace: true })}>Start Shopping</Button>
                 </div>
             </div>
         );
@@ -68,8 +72,8 @@ export default function CartPage({ onBack, onCheckout }) {
     function renderProducts() {
         return (
             <div className="p-4 space-y-3 mb-[70px]">
-                <p className="text-sm">Shopping Cart ({cartItems.length})</p>
-                {cartItems.map((item, index) => (
+                <p className="text-sm">Shopping Cart ({products.length})</p>
+                {products.map((item, index) => (
                     <div
                         key={index}
                         className="bg-white rounded-lg p-3 border border-gray-200"
@@ -110,7 +114,7 @@ export default function CartPage({ onBack, onCheckout }) {
     }
 
     function renderProductsTotalPrice() {
-        const subtotal = cartItems.reduce((sum, item) => sum + item.discountedPrice * item.qty, 0);
+        const subtotal = products.reduce((sum, item) => sum + item.discountedPrice * item.qty, 0);
         const discount = Math.floor(subtotal * 0.1);
         const delivery = subtotal > 500 ? 0 : 40;
         const total = subtotal - discount + delivery;
@@ -120,7 +124,7 @@ export default function CartPage({ onBack, onCheckout }) {
                 <div className="p-4 space-y-2 border-b border-gray-200">
                     <div className="flex justify-between text-sm">
                         <span className="text-gray-600">
-                            Subtotal ({cartItems.length} items)
+                            Subtotal ({products.length} items)
                         </span>
                         <span className="text-gray-900">₹{subtotal.toLocaleString()}</span>
                     </div>

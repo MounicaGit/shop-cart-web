@@ -4,13 +4,17 @@ import CheckoutAddress from "./CheckOutAddress";
 import CheckoutPayment from "./CheckoutPayment";
 import Button from "../../../components/ui/Button";
 import CheckoutReview from "./CheckoutReview";
+import { useNavigate } from "react-router";
 
 export default function Checkout() {
     const [step, setStep] = useState(1)
     const [isValidForm, setIsValidForm] = useState(false)
+    const navigate = useNavigate();
 
     useEffect(() => {
-        setIsValidForm(true)
+        setIsValidForm(false)
+        if (step == 3)
+            setIsValidForm(true)
     }, [step])
 
     function renderStepper() {
@@ -41,9 +45,14 @@ export default function Checkout() {
         return <div className="flex-1 h-px bg-gray-300 mx-2" />;
     }
 
-    function handleUpdateStep(step) {
-        console.log("step=>", step)
-        setStep(step)
+    function handleUpdateStep(stepValue) {
+        console.log("stepValue=>", stepValue)
+        if (step == 3 && stepValue == 4) {
+            console.log("navigated")
+            navigate("/home")
+        }
+        setStep(stepValue)
+
     }
 
     function renderFooter() {
@@ -54,10 +63,10 @@ export default function Checkout() {
                         <span className="text-gray-500">Total Amount</span>
                         <div className="text-lg font-semibold">₹7497</div>
                     </div>
-                    <Button
+                    {step > 1 && <Button
                         className="w-full md:w-auto border border-blue-600 text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-blue-50 transition"
-                        onClick={() => step > 1 ? handleUpdateStep(step - 1) : null}>Back</Button>
-                    {step == 2 &&
+                        onClick={() => step > 1 ? handleUpdateStep(step - 1) : null}>Back</Button>}
+                    {step < 3 &&
                         <Button
                             disabled={!isValidForm}
                             className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white px-10 py-3 rounded-lg font-medium transition disabled:opacity-50"
@@ -65,8 +74,8 @@ export default function Checkout() {
                     {step == 3 &&
                         <Button
                             disabled={!isValidForm}
-                            className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white px-10 py-3 rounded-lg font-medium transition disabled:opacity-50"
-                            onClick={() => step < 3 ? handleUpdateStep(step + 1) : null}>Continue</Button>}
+                            className="w-full md:w-auto bg-orange-600 hover:opacity-50 text-white px-10 py-3 rounded-lg font-medium transition disabled:opacity-50"
+                            onClick={() => handleUpdateStep(step + 1)}>Place Order</Button>}
                 </div>
             </div>
         )

@@ -5,6 +5,7 @@ import ProductDetails from "./ProductDetails"
 import { useNavigate } from "react-router"
 import { addToCart, updateItemWishlist } from "../store/productSlice";
 import { Toaster, toast } from "react-hot-toast";
+import { updateCart } from "../../cart/store/cartSlice";
 
 export default function DealCard({ item }) {
     const navigate = useNavigate();
@@ -14,6 +15,7 @@ export default function DealCard({ item }) {
     function handleAddToCart(e) {
         e.stopPropagation();
         dispatch(addToCart(item.id))
+        dispatch(updateCart(item))
         if (!item.isAddedToCart)
             toast.success("Item added to cart!!")
         else
