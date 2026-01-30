@@ -19,10 +19,6 @@ const productSlice = createSlice({
             console.log("state.deals=>", state.deals)
             state.deals.map((item) => { console.log("id=>", item.id, action.payload); if (item.id == action.payload) { console.log("wishlisted"); item.isWishlisted = !item.isWishlisted } })
         },
-        addToCart: (state, action) => {
-            const item = state.deals.find((item) => item.id === action.payload)
-            item.isAddedToCart = !item.isAddedToCart
-        },
         updateItemQty: (state, action) => {
             const item = state.deals.find((item) => item.id === action.payload.id)
             item.qty = action.payload.qty;
@@ -39,6 +35,6 @@ const productSlice = createSlice({
 }
 );
 
-export const { getDeals, updateItemWishlist, addToCart, updateItemQty, filterDeals } = productSlice.actions;
+export const { getDeals, updateItemWishlist, filterDeals, updateItemQty } = productSlice.actions;
 
 export default productSlice.reducer;

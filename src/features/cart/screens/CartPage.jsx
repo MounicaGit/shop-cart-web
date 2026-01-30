@@ -9,8 +9,7 @@ import { useNavigate } from "react-router";
 
 export default function CartPage({ onBack, onCheckout }) {
     // const [cartItems, setCartItems] = useState(cart)
-    const [couponCode, setCouponCode] = useState("");
-    const products = useSelector((state) => state.productsInCart ?? [])
+    const products = useSelector((state) => state.cart.productsInCart ?? [])
     const navigate = useNavigate();
 
     // Update quantity of an item

@@ -3,7 +3,7 @@ import { backpack, deliveryTruck, headphones, jeans, returnPolicy, shoes, smartP
 export const deals = [
     {
         id: 1,
-        qty: 1,
+        qty: 0,
         name: "Premium Wireless Headphones",
         category: "electronics",
         rating: 4.3,
@@ -33,7 +33,7 @@ export const deals = [
 
     {
         id: 2,
-        qty: 1,
+        qty: 0,
         name: "Smart Fitness Watch",
         category: "electronics",
         rating: 4.2,
@@ -63,7 +63,7 @@ export const deals = [
 
     {
         id: 3,
-        qty: 1,
+        qty: 0,
         name: "Casual Denim Jeans",
         category: "fashion",
         rating: 3.5,
@@ -92,7 +92,7 @@ export const deals = [
 
     {
         id: 4,
-        qty: 1,
+        qty: 0,
         name: "Running Shoes",
         category: "footwear",
         rating: 5.0,
@@ -121,7 +121,7 @@ export const deals = [
 
     {
         id: 5,
-        qty: 1,
+        qty: 0,
         name: "Latest Smartphone",
         category: "electronics",
         rating: 4.2,
@@ -151,7 +151,7 @@ export const deals = [
 
     {
         id: 6,
-        qty: 1,
+        qty: 0,
         name: "Premium Backpack",
         category: "accessories",
         rating: 3.0,

@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import ProfileMenu from "./ProfileMenu";
 import { debounce } from "lodash";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { filterDeals } from "../../features/home/store/productSlice";
 import { useNavigate } from "react-router";
 
@@ -9,6 +9,8 @@ export default function HeaderBar() {
     const [searchText, setSearchText] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const productsInCart = useSelector((state) => state.cart.productsInCart)
+    const cartItems = productsInCart.reduce((acc, item) => { return acc + item.qty }, 0)
 
     function handleSearch(e) {
         setSearchText(e.target.value);
@@ -38,10 +40,16 @@ export default function HeaderBar() {
             </div>
             <div className="flex gap-5 ml-auto mr-10">
                 <button><ProfileMenu /></button>
-                <button onClick={() => navigate("/cart")} className="flex flex-row gap-2 items-center">
-                    <img src="/icons/cart.png" className="h-5 w-5 " />
-                    <p className="text-white">Cart</p>
-                </button>
+                <div className="relative">
+                    <button onClick={() => navigate("/cart")} className="flex flex-row gap-2 items-center p-2">
+                        <img src="/icons/cart.png" className="h-6 w-6 " />
+                        {cartItems == 0 && <p className="text-white">Cart</p>}
+                    </button>
+                    {cartItems > 0 &&
+                        <div className="bg-red-600 rounded-2xl text-white text-xs h-4 w-4 text-center pt-[1px] pr-[1px] absolute left-7 top-0">
+                            <p>{cartItems}</p>
+                        </div>}
+                </div>
             </div>
         </div >
     )

@@ -7,11 +7,11 @@ import ProductDetailsTab from "./ProductDetailsTab";
 import ProductSpecificationsTab from "./ProductSpecificationsTab";
 import ProductReviewsTab from "./ProductReviewsTab";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, updateItemQty, updateItemWishlist } from "../store/productSlice";
+import { updateItemWishlist, updateItemQty } from "../store/productSlice";
 import { Toaster, toast } from "react-hot-toast";
 import QtyCounter from "../../../components/ui/QtyCounter";
 import CommonHeader from "../../../components/layout/CommonHeader";
-import { updateCart } from "../../cart/store/cartSlice";
+import { addToCart, removeFromCart, updateCart } from "../../cart/store/cartSlice";
 
 export default function ProductDetailsPage() {
     // const { state } = useLocation();
@@ -85,31 +85,45 @@ export default function ProductDetailsPage() {
     }
 
     function incrementQty() {
-        if (item.qty > 1)
-            dispatch(updateItemQty({ qty: Math.max(item.qty - 1, 1), id: item.id }))
+        if (item.qty > 0) {
+            const qty = item.qty;
+            dispatch(updateItemQty({ qty: Math.max(qty + 1, 0), id: item.id }))
+            dispatch(updateCart({ qty: Math.max(qty + 1, 0), id: item.id }))
+            dispatch(updateCart({ id: item.id, qty: qty + 1 }))
+        }
     }
 
     function decrementQty() {
-        dispatch(updateItemQty({ qty: (item.qty) + 1, id: item.id }))
+        const qty = item.qty;
+        dispatch(updateItemQty({ qty: qty - 1, id: item.id }))
+        dispatch(updateCart({ qty: qty - 1, id: item.id }))
     }
 
-    function handleAddToCart() {
-        dispatch(addToCart(item.id));
-        dispatch(updateCart(item))
-        if (!item.isAddedToCart)
+    function handleAddToCart(e, item) {
+        e.stopPropagation();
+        if (item.qty < 1) {
+            dispatch(addToCart(item));
+            dispatch(updateItemQty({ id: item.id, qty: 1 }))
+            dispatch(updateCart({ id: item.id, qty: 1 }))
             toast.success("Item added to cart!!")
-        else toast.error("Item removed from cart!!")
+        }
+        else {
+            dispatch(removeFromCart(item));
+            dispatch(updateItemQty({ id: item.id, qty: 0 }))
+            dispatch(updateCart({ id: item.id, qty: 0 }))
+            toast.error("Item removed from cart!!")
+        }
     }
 
     function renderButtons() {
         return (
             <div className="flex flex-row fixed bottom-0 bg-white w-[600px] justify-between gap-2 pb-5">
-                <QtyCounter qty={item.qty} incrementQty={incrementQty} decrementQty={decrementQty} />
-                <Button className={`flex-1 ${item.isAddedToCart ? " bg-red-500" : "bg-blue-700"} justify-center items-center p-3 rounded-md`}
-                    onClick={() => { }}
+                {item.qty > 0 && <QtyCounter qty={item.qty} incrementQty={incrementQty} decrementQty={decrementQty} />}
+                <Button className={`flex-1 ${item.qty > 0 ? " bg-red-500" : "bg-blue-700"} justify-center items-center p-3 rounded-md`}
+                    onClick={(e) => handleAddToCart(e, item)}
                 ><div className="flex flex-row gap-2 justify-center">
                         <img src="/icons/cart.png" className="h-4 w-4 mt-1" />
-                        <p onClick={() => handleAddToCart()} className="text-white">{item.isAddedToCart ? "Remove from Cart" : "Add to Cart"}</p></div></Button>
+                        <p className="text-white">{item.qty > 0 ? "Remove from Cart" : "Add to Cart"}</p></div></Button>
                 <Button className="flex-1 bg-orange-500 justify-center items-center p-3 rounded-md"
                     onClick={() => { }}
                 ><div>
@@ -129,7 +143,7 @@ export default function ProductDetailsPage() {
 
     return (
         <div className="flex flex-col items-center ">
-            <CommonHeader qty={item.qty} />
+            <CommonHeader />
             <div className="flex flex-col items-start pb-[80px]">
 
                 {renderProductImage()}
