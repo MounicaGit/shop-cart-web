@@ -1,6 +1,6 @@
 
 
-import { Navigate, Route, Routes } from 'react-router';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Home from '../features/home/screens/Home';
 import SignIn from '../features/auth/screens/SignIn';

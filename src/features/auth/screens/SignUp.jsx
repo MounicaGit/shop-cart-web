@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { signUp } from '../store/authSlice';
 import Button from '../../../components/ui/Button';
