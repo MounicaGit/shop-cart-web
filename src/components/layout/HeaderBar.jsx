@@ -3,7 +3,7 @@ import ProfileMenu from "./ProfileMenu";
 import { debounce } from "lodash";
 import { useDispatch, useSelector } from "react-redux";
 import { filterDeals } from "../../features/home/store/productSlice";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 export default function HeaderBar() {
     const [searchText, setSearchText] = useState("");

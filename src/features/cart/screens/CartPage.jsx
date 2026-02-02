@@ -5,7 +5,7 @@ import CommonHeader from "../../../components/layout/CommonHeader";
 import HeaderBar from "../../../components/layout/HeaderBar";
 import QtyCounter from "../../../components/ui/QtyCounter";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 export default function CartPage({ onBack, onCheckout }) {
     // const [cartItems, setCartItems] = useState(cart)

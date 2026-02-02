@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router"
 import DealCard from "./DealCard"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react";

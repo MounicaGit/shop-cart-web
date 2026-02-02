@@ -4,7 +4,7 @@ import CheckoutAddress from "./CheckOutAddress";
 import CheckoutPayment from "./CheckoutPayment";
 import Button from "../../../components/ui/Button";
 import CheckoutReview from "./CheckoutReview";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 export default function Checkout() {
     const [step, setStep] = useState(1)

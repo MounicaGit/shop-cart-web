@@ -2,7 +2,7 @@
 import { useDispatch } from "react-redux";
 import Button from "../../../components/ui/Button"
 import ProductDetails from "./ProductDetails"
-import { useNavigate } from "react-router"
+import { useNavigate } from "react-router-dom"
 import { updateItemQty, updateItemWishlist } from "../store/productSlice";
 import { Toaster, toast } from "react-hot-toast";
 import { addToCart, removeFromCart, updateCart } from "../../cart/store/cartSlice";

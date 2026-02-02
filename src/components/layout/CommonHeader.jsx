@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router"
+import { useLocation, useNavigate } from "react-router-dom"
 
 export default function CommonHeader({ showCart = true }) {
     const navigate = useNavigate();

@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { useNavigate } from "react-router";
-import toast, { Toaster } from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "../store/authSlice";
+import { Toaster } from "react-hot-toast";
 import Button from "../../../components/ui/Button";
 import TextField from "../../../components/ui/TextField";
 import CheckBox from "../../../components/ui/Checkbox";
 import useValidators from "../../../utils/validations/validators";
+import { useSignIn } from "../hooks/useSignIn";
+import { useSignInEffects } from "../hooks/useSignInEffects";
+import { useState } from "react";
+import { AUTH_STATUS } from "../../../utils/constants/StringConstants";
 
 
 export default function SignIn() {
@@ -15,9 +15,9 @@ export default function SignIn() {
     const [showPassword, setShowPassword] = useState(false);
     const [rememberMeChecked, setRememberMeChecked] = useState(false);
     const { emailError, passwordError, validateEmail, validatePassword } = useValidators();
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const storedUser = useSelector((state) => state.auth.user)
+    const { error, status, user, signin } = useSignIn();
+    useSignInEffects({ status, error, user });
+
 
     function renderHeader() {
         return (
@@ -86,23 +86,17 @@ export default function SignIn() {
         return (
             <Button
                 className="bg-blue-700 py-2 w-[100%] disabled:opacity-50 hover:opacity-[50%] rounded-md text-white mt-8"
-                disabled={emailError || passwordError}
+                disabled={emailError || passwordError || status == AUTH_STATUS.LOADING}
                 onClick={() => handleLogin()}
             >
-                Sign In </Button>
+                {status == AUTH_STATUS.LOADING ? " Signing in..." : "Sign In"}</Button>
         )
     }
 
     function handleLogin() {
-        if (storedUser && storedUser.email == email && storedUser.password == password) {
-            dispatch(login({ email, password }))
-
-            toast.success("Hey! Welcome Back");
-            setTimeout(() => { navigate("/home") }, 1500);
-        }
-        else {
-            toast.error("Invalid Credentials!!")
-        }
+        if (emailError || passwordError)
+            return;
+        signin({ email, password })
     }
 
     function renderSignUpView() {

@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { AUTH_STATUS } from "../../../utils/constants/StringConstants";
 
 const fakeUsers = [
     { id: 1, email: 'test1@test.com', password: 'test@123', name: 'Test' }
@@ -14,10 +15,10 @@ export const signin = createAsyncThunk("auth/signin", async ({ email, password }
     return user;
 });
 
-export const signup = createAsyncThunk("auth/signup", async ({ email, password, name, phonenumber }, { rejectWithValue }) => {
+export const signup = createAsyncThunk("auth/signup", async ({ fullName, email, phone, password }, { rejectWithValue }) => {
     await new Promise((res) => setTimeout(res, 1000));
 
-    const newUser = { id: Date.now(), name: name, email: email, password: password, phonenumber: phonenumber }
+    const newUser = { id: Date.now(), name: fullName, email: email, password: password, phonenumber: phone }
     fakeUsers.push(newUser);
     return newUser;
 });
@@ -28,35 +29,44 @@ const authSlice = createSlice({
     reducers: {
         logout: (state, action) => { // used for only state change
             state.user = null;
-            state.status = "idle";
+            state.status = AUTH_STATUS.IDLE;
             state.error = null
+        },
+        clearAuthStatus: (state, action) => {
+            state.status = AUTH_STATUS.IDLE;
+            state.error = null;
         }
     },
     extraReducers: (builder) => { //used for async calls 
         builder.addCase(signin.pending, (state, action) => {
-            state.status = "loading";
+            state.status = AUTH_STATUS.LOADING;
             state.error = null
-        }),
-            builder.addCase(signin.fulfilled, (state, action) => {
+        }).
+            addCase(signin.fulfilled, (state, action) => {
                 state.user = action.payload;
-                state.status = "authenticated";
+                state.status = AUTH_STATUS.AUTHENTICATED;
                 state.error = null;
-            }),
-            builder.addCase(signin.rejected, (state, action) => {
-                state.status = "error";
+            }).
+            addCase(signin.rejected, (state, action) => {
+                state.status = AUTH_STATUS.ERROR;
                 state.error = action.payload;
-            }),
-            builder.addCase(signup.pending, (state, action) => {
-                state.status = "loading";
+            }).
+            addCase(signup.pending, (state, action) => {
+                state.status = AUTH_STATUS.LOADING;
                 state.error = null
-            }),
-            builder.addCase(signup.fulfilled, (state, action) => {
-                state.user = action.payload;
-                state.status = "authenticated";
+            }).
+            addCase(signup.fulfilled, (state, action) => {
+                // state.user = action.payload;
+                state.status = AUTH_STATUS.REGISTERED;
                 state.error = null;
+            }).
+            addCase(signup.rejected, (state, error) => {
+                state.user = null;
+                state.error = "Error Registering User";
+                state.status = AUTH_STATUS.ERROR;
             })
     }
 })
 
-export const { logout } = authSlice.actions;
+export const { logout, clearAuthStatus } = authSlice.actions;
 export default authSlice.reducer;

@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Toaster, toast } from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { signUp } from '../store/authSlice';
+import { Toaster } from 'react-hot-toast';
 import Button from '../../../components/ui/Button';
 import CheckBox from '../../../components/ui/Checkbox';
 import useValidators from '../../../utils/validations/validators';
+import { useSignUp } from '../hooks/useSignUp';
+import { useSignUpEffects } from '../hooks/useSignupEffects';
+import { AUTH_STATUS } from '../../../utils/constants/StringConstants';
 
 export default function SignUp() {
 
@@ -18,8 +18,8 @@ export default function SignUp() {
     const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const { user, error, status, signup } = useSignUp();
+    useSignUpEffects({ status, error });
 
     function renderHeader() {
         return (
@@ -54,7 +54,7 @@ export default function SignUp() {
                     type="text"
                     placeholder="Enter your full name"
                     value={fullName}
-                    onChange={(e) => { setFullName(e.target.value); validateFullName(fullName) }}
+                    onChange={(e) => { setFullName(e.target.value); validateFullName(e.target.value) }}
                     onBlur={() => validateFullName(fullName)}
                     className="h-[40xpx] rounded-md border border-gray-200 pl-2 h-[40px]"
                 />
@@ -71,7 +71,7 @@ export default function SignUp() {
                     type="email"
                     placeholder="Enter your email"
                     value={email}
-                    onChange={(e) => { setEmail(e.target.value); validateEmail(email) }}
+                    onChange={(e) => { setEmail(e.target.value); validateEmail(e.target.value) }}
                     onBlur={() => validateEmail(email)}
                     className="h-[40xpx] rounded-md border border-gray-200 pl-2 h-[40px]"
                 />
@@ -88,7 +88,7 @@ export default function SignUp() {
                     type="tel"
                     placeholder="Enter your phone number"
                     value={phone}
-                    onChange={(e) => { setPhone(e.target.value); validatePhone(phone) }}
+                    onChange={(e) => { setPhone(e.target.value); validatePhone(e.target.value) }}
                     onBlur={() => validatePhone(phone)}
                     className="h-[40xpx] rounded-md border border-gray-200 pl-2 h-[40px]"
                 />
@@ -105,7 +105,7 @@ export default function SignUp() {
                     type={showPassword ? "text" : "password"}
                     placeholder="Enter your password"
                     value={password}
-                    onChange={(e) => { setPassword(e.target.value); validatePassword(password) }}
+                    onChange={(e) => { setPassword(e.target.value); validatePassword(e.target.value) }}
                     onBlur={() => validatePassword(password)}
                     className="h-[40xpx] rounded-md border border-gray-200 pl-2 h-[40px]"
                 />
@@ -126,7 +126,7 @@ export default function SignUp() {
                     type={showConfirmPassword ? "text" : "password"}
                     placeholder="Confirm your password"
                     value={confirmPassword}
-                    onChange={(e) => { setConfirmPassword(e.target.value); validatePassword(confirmPassword) }}
+                    onChange={(e) => { setConfirmPassword(e.target.value); validatePassword(e.target.value) }}
                     onBlur={() => validatePassword(confirmPassword)}
                     className="h-[40xpx] rounded-md border border-gray-200 pl-2 h-[40px]"
                 />
@@ -165,14 +165,7 @@ export default function SignUp() {
     }
 
     function handleRegister() {
-        dispatch(signUp({ fullName, email, phone, password }))
-        // if (success) {
-        toast.success("Registered Successfully!!");
-        setTimeout(() => { navigate("/") }, 1500);
-        // }
-        // else {
-        //     toast.error("Registration Failed! Try Again Later!!")
-        // }
+        signup({ fullName, email, phone, password })
     }
 
     function renderSignUpButton() {
@@ -180,8 +173,8 @@ export default function SignUp() {
             <div>
                 <Button
                     className="bg-blue-700 py-2 w-[100%] disabled:opacity-50 hover:opacity-[50%] rounded-md text-white mt-8"
-                    disabled={!fullName || !phone || !email || !password || !confirmPassword || fullNameError || emailError || phoneError || passwordError || (password != confirmPassword) || !acceptTnC}
-                    onClick={() => handleRegister()} >Sign Up</Button>
+                    disabled={status === AUTH_STATUS.LOADING || !fullName || !phone || !email || !password || !confirmPassword || fullNameError || emailError || phoneError || passwordError || (password != confirmPassword) || !acceptTnC}
+                    onClick={() => handleRegister()} >{status === AUTH_STATUS.LOADING ? "Signing Up..." : "Sign Up"}</Button>
             </div >
         )
     }
