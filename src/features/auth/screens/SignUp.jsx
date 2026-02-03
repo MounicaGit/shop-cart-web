@@ -18,8 +18,8 @@ export default function SignUp() {
     const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const { user, error, status, signup } = useSignUp();
-    useSignUpEffects({ status, error });
+    const { user, error, signup } = useSignUp();
+    useSignUpEffects({ user, error });
 
     function renderHeader() {
         return (
@@ -173,8 +173,8 @@ export default function SignUp() {
             <div>
                 <Button
                     className="bg-blue-700 py-2 w-[100%] disabled:opacity-50 hover:opacity-[50%] rounded-md text-white mt-8"
-                    disabled={status === AUTH_STATUS.LOADING || !fullName || !phone || !email || !password || !confirmPassword || fullNameError || emailError || phoneError || passwordError || (password != confirmPassword) || !acceptTnC}
-                    onClick={() => handleRegister()} >{status === AUTH_STATUS.LOADING ? "Signing Up..." : "Sign Up"}</Button>
+                    disabled={(user != null && user.status) === AUTH_STATUS.LOADING || !fullName || !phone || !email || !password || !confirmPassword || fullNameError || emailError || phoneError || passwordError || (password != confirmPassword) || !acceptTnC}
+                    onClick={() => handleRegister()} >{(user != null && user.status) === AUTH_STATUS.LOADING ? "Signing Up..." : "Sign Up"}</Button>
             </div >
         )
     }

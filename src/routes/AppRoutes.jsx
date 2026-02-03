@@ -14,9 +14,10 @@ import CartPage from '../features/cart/screens/CartPage';
 import CheckoutAddress from '../features/cart/screens/CheckOutAddress';
 import CheckoutPayment from '../features/cart/screens/CheckoutPayment';
 import Checkout from '../features/cart/screens/Checkout';
+import { AUTH_STATUS } from '../utils/constants/StringConstants';
 
 export default function AppRoutes() {
-    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
+    const isAuthenticated = useSelector((state) => state.auth.status) === AUTH_STATUS.AUTHENTICATED
     return (
         <Routes>
             <Route path="/" element={isAuthenticated ? <Navigate to="/home" /> : <SignIn />} />

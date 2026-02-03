@@ -5,19 +5,19 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { clearAuthStatus } from "../store/authSlice";
 
-export function useSignUpEffects({ status, error }) {
+export function useSignUpEffects({ user, error }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (status == AUTH_STATUS.REGISTERED) {
+        if (user.status == AUTH_STATUS.REGISTERED) {
             setTimeout(() => { navigate("/") }, 1000)
             toast.success("User Registered Successfully!!")
             dispatch(clearAuthStatus())
         }
-        else if (status == AUTH_STATUS.ERROR && error) {
+        else if (user.status == AUTH_STATUS.ERROR && error) {
             toast.error(error);
             dispatch(clearAuthStatus())
         }
-    }, [error, status, navigate]);
+    }, [error, navigate]);
 }

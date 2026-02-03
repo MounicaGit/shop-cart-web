@@ -5,21 +5,21 @@ import toast from "react-hot-toast";
 import { clearAuthStatus } from "../store/authSlice";
 import { useDispatch } from "react-redux";
 
-export function useSignInEffects({ status, error, user }) {
+export function useSignInEffects({ error, user }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (status === AUTH_STATUS.AUTHENTICATED && user) {
-            console.log(`user=> ${user.name} ${user.email} ${user.password} ${user.phonenumber}`)
+        if (user != null && user.status === AUTH_STATUS.AUTHENTICATED) {
+            console.log(`user=> ${user.name} ${user.email} ${user.password} ${user.phonenumber} ${user.status}`)
             // setTimeout(() => { navigate("/home") }, 1000);
             toast.success(`Welcome Back ${user.name}!!`);
             navigate("/home", { replace: true })
             dispatch(clearAuthStatus());
         }
-        else if (status == AUTH_STATUS.ERROR && error) {
+        else if (error && user != null && user.status == AUTH_STATUS.ERROR) {
             toast.error(error)
             dispatch(clearAuthStatus());
         }
-    }, [status, error, navigate, user, dispatch]);
+    }, [error, navigate, user, dispatch]);
 }

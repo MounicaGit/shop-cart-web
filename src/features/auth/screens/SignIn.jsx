@@ -15,8 +15,8 @@ export default function SignIn() {
     const [showPassword, setShowPassword] = useState(false);
     const [rememberMeChecked, setRememberMeChecked] = useState(false);
     const { emailError, passwordError, validateEmail, validatePassword } = useValidators();
-    const { error, status, user, signin } = useSignIn();
-    useSignInEffects({ status, error, user });
+    const { error, user, signin } = useSignIn();
+    useSignInEffects({ error, user });
 
 
     function renderHeader() {
@@ -86,10 +86,10 @@ export default function SignIn() {
         return (
             <Button
                 className="bg-blue-700 py-2 w-[100%] disabled:opacity-50 hover:opacity-[50%] rounded-md text-white mt-8"
-                disabled={emailError || passwordError || status == AUTH_STATUS.LOADING}
+                disabled={emailError || passwordError || (user && user.status == AUTH_STATUS.LOADING)}
                 onClick={() => handleLogin()}
             >
-                {status == AUTH_STATUS.LOADING ? " Signing in..." : "Sign In"}</Button>
+                {(user && user.status == AUTH_STATUS.LOADING) ? " Signing in..." : "Sign In"}</Button>
         )
     }
 
