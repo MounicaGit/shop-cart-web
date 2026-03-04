@@ -1,11 +1,12 @@
-import { useState } from 'react';
-import { Toaster } from 'react-hot-toast';
+import { useEffect, useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import Button from '../../../components/ui/Button';
 import CheckBox from '../../../components/ui/Checkbox';
 import useValidators from '../../../utils/validations/validators';
 import { useSignUp } from '../hooks/useSignUp';
 import { useSignUpEffects } from '../hooks/useSignupEffects';
 import { AUTH_STATUS } from '../../../utils/constants/StringConstants';
+import { useNavigate } from 'react-router-dom';
 
 export default function SignUp() {
 
@@ -18,6 +19,7 @@ export default function SignUp() {
     const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const navigate = useNavigate();
     const { user, error, signup } = useSignUp();
     useSignUpEffects({ user, error });
 
@@ -165,7 +167,9 @@ export default function SignUp() {
     }
 
     function handleRegister() {
+        console.log("log 1111")
         signup({ fullName, email, phone, password })
+
     }
 
     function renderSignUpButton() {

@@ -1,4 +1,4 @@
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import Button from "../../../components/ui/Button";
 import TextField from "../../../components/ui/TextField";
 import CheckBox from "../../../components/ui/Checkbox";
@@ -97,6 +97,11 @@ export default function SignIn() {
         if (emailError || passwordError)
             return;
         signin({ email, password })
+        if(error==null){
+            setTimeout(() => {
+                toast.success(`Welcome back ${user.fullName}!!`)
+            }, 1000);
+        }
     }
 
     function renderSignUpView() {

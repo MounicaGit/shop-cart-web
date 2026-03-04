@@ -10,14 +10,14 @@ export function useSignUpEffects({ user, error }) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (user.status == AUTH_STATUS.REGISTERED) {
+        if (user != null && user.status == AUTH_STATUS.REGISTERED) {
             setTimeout(() => { navigate("/") }, 1000)
             toast.success("User Registered Successfully!!")
             dispatch(clearAuthStatus())
         }
-        else if (user.status == AUTH_STATUS.ERROR && error) {
+        else if (error) {
             toast.error(error);
             dispatch(clearAuthStatus())
         }
-    }, [error, navigate]);
+    }, [error, navigate, user]);
 }

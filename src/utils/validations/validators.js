@@ -15,7 +15,7 @@ export default function useValidators() {
 
     const validateEmail = (value) => {
         const result = emailSchema.safeParse(value);
-        console.log("Validation Result:", result);
+        // console.log("Validation Result:", result);
         setEmailError(result.success ? "" : JSON.parse(result.error.message)[0].message);
         return result.success;
     }
