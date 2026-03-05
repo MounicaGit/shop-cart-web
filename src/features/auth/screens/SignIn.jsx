@@ -4,10 +4,11 @@ import TextField from "../../../components/ui/TextField";
 import CheckBox from "../../../components/ui/Checkbox";
 import useValidators from "../../../utils/validations/validators";
 import { useSignIn } from "../hooks/useSignIn";
-import { useSignInEffects } from "../hooks/useSignInEffects";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AUTH_STATUS } from "../../../utils/constants/StringConstants";
-
+import { clearAuthStatus } from "../store/authSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
 
 export default function SignIn() {
     const [email, setEmail] = useState("");
@@ -16,8 +17,20 @@ export default function SignIn() {
     const [rememberMeChecked, setRememberMeChecked] = useState(false);
     const { emailError, passwordError, validateEmail, validatePassword } = useValidators();
     const { error, user, signin } = useSignIn();
-    useSignInEffects({ error, user });
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
+    useEffect(() => {
+        if (user != null && user.status === AUTH_STATUS.AUTHENTICATED) {
+            toast.success(`Welcome back ${user.fullName}!!`)
+            setTimeout(() => { navigate("/home") }, 1000)
+            dispatch(clearAuthStatus())
+        }
+        else if (error) {
+            toast.error(error)
+            dispatch(clearAuthStatus());
+        }
+    }, [error, navigate, user]);
 
     function renderHeader() {
         return (

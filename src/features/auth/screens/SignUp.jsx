@@ -4,9 +4,10 @@ import Button from '../../../components/ui/Button';
 import CheckBox from '../../../components/ui/Checkbox';
 import useValidators from '../../../utils/validations/validators';
 import { useSignUp } from '../hooks/useSignUp';
-import { useSignUpEffects } from '../hooks/useSignupEffects';
 import { AUTH_STATUS } from '../../../utils/constants/StringConstants';
 import { useNavigate } from 'react-router-dom';
+import { clearAuthStatus } from "../store/authSlice";
+import { useDispatch } from 'react-redux';
 
 export default function SignUp() {
 
@@ -21,7 +22,19 @@ export default function SignUp() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const navigate = useNavigate();
     const { user, error, signup } = useSignUp();
-    useSignUpEffects({ user, error });
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (user != null && user.status == AUTH_STATUS.REGISTERED) {
+            toast.success("User Registered Successfully!!")
+            setTimeout(() => { navigate("/home") }, 1000)
+            // dispatch(clearAuthStatus())
+        }
+        else if (error) {
+            toast.error(error);
+            dispatch(clearAuthStatus())
+        }
+    }, [error, navigate, user]);
 
     function renderHeader() {
         return (
