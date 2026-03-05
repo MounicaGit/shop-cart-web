@@ -23,7 +23,7 @@ export default function HeaderBar() {
         }, 500), []);
     return (
         <div
-            className="flex flex-row bg-blue-700 p-5 justify-start items-center h-[80px] w-[100%] relative">
+            className="flex flex-row bg-blue-700 p-5 justify-start items-center h-[80px] w-[100%] relative z-50">
             <div className="flex flex-row">
                 <h1 className="text-xl font-semibold text-white pt-2">ShopMart</h1>
                 <div className="relative w-[100%]">

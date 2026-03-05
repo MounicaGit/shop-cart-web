@@ -8,11 +8,6 @@ export default function Home() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    function handleLogout() {
-        dispatch(logout());
-        navigate("/login")
-    }
-
     return (
         <div>
             <HeaderBar/>

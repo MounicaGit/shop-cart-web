@@ -11,9 +11,9 @@ export function useSignUpEffects({ user, error }) {
 
     useEffect(() => {
         if (user != null && user.status == AUTH_STATUS.REGISTERED) {
-            setTimeout(() => { navigate("/") }, 1000)
             toast.success("User Registered Successfully!!")
-            dispatch(clearAuthStatus())
+            setTimeout(() => { navigate("/home") }, 1000)
+            // dispatch(clearAuthStatus())
         }
         else if (error) {
             toast.error(error);

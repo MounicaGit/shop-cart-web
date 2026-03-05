@@ -86,6 +86,7 @@ const authSlice = createSlice({
                 var users = storedUsers.length == 0 ? [] : JSON.parse(storedUsers);
                 var user = action.payload;
                 user.status = AUTH_STATUS.REGISTERED;
+                state.user = user;
                 console.log(`log 3333=>${users}`)
                 users.push(action.payload);
                 setItemToStore("users", JSON.stringify(users))

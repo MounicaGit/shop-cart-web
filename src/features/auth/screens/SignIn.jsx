@@ -94,14 +94,7 @@ export default function SignIn() {
     }
 
     function handleLogin() {
-        if (emailError || passwordError)
-            return;
         signin({ email, password })
-        if(error==null){
-            setTimeout(() => {
-                toast.success(`Welcome back ${user.fullName}!!`)
-            }, 1000);
-        }
     }
 
     function renderSignUpView() {

@@ -11,15 +11,13 @@ export function useSignInEffects({ error, user }) {
 
     useEffect(() => {
         if (user != null && user.status === AUTH_STATUS.AUTHENTICATED) {
-            console.log(`user=> ${user.name} ${user.email} ${user.password} ${user.phonenumber} ${user.status}`)
-            // setTimeout(() => { navigate("/home") }, 1000);
-            toast.success(`Welcome Back ${user.name}!!`);
-            navigate("/home", { replace: true })
-            dispatch(clearAuthStatus());
+             toast.success(`Welcome back ${user.fullName}!!`)
+            setTimeout(() => { navigate("/home") }, 1000)
+            dispatch(clearAuthStatus())
         }
-        else if (error && user != null && user.status == AUTH_STATUS.ERROR) {
+        else if (error) {
             toast.error(error)
             dispatch(clearAuthStatus());
         }
-    }, [error, navigate, user, dispatch]);
+    }, [error, navigate, user]);
 }

@@ -17,11 +17,12 @@ import Checkout from '../features/cart/screens/Checkout';
 import { AUTH_STATUS } from '../utils/constants/StringConstants';
 
 export default function AppRoutes() {
-    const isAuthenticated = useSelector((state) => state.auth.status) === AUTH_STATUS.AUTHENTICATED
+    const user = useSelector((state) => state.auth.user)
+    const isAuthenticated = user != null && user.status === AUTH_STATUS.AUTHENTICATED
     return (
         <Routes>
             <Route path="/" element={isAuthenticated ? <Navigate to="/home" /> : <SignIn />} />
-            <Route path="login" element={<SignIn />} />
+            <Route path="/login" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/home" element={<PrivateRoute> <Home /></PrivateRoute>} />
             <Route path="/product-details/:id/*" element={<ProductDetailsPage />}>
