@@ -11,7 +11,7 @@ import { updateItemWishlist, updateItemQty } from "../store/productSlice";
 import { Toaster, toast } from "react-hot-toast";
 import QtyCounter from "../../../components/ui/QtyCounter";
 import CommonHeader from "../../../components/layout/CommonHeader";
-import { addToCart, removeFromCart, updateCart } from "../../cart/store/cartSlice";
+import { addToCart, removeFromCart, updateQty } from "../../cart/store/cartSlice";
 
 export default function ProductDetailsPage() {
     // const { state } = useLocation();
@@ -88,15 +88,15 @@ export default function ProductDetailsPage() {
         if (item.qty > 0) {
             const qty = item.qty;
             dispatch(updateItemQty({ qty: Math.max(qty + 1, 0), id: item.id }))
-            dispatch(updateCart({ qty: Math.max(qty + 1, 0), id: item.id }))
-            dispatch(updateCart({ id: item.id, qty: qty + 1 }))
+            dispatch(updateQty({ qty: Math.max(qty + 1, 0), id: item.id }))
+            dispatch(updateQty({ id: item.id, qty: qty + 1 }))
         }
     }
 
     function decrementQty() {
         const qty = item.qty;
         dispatch(updateItemQty({ qty: qty - 1, id: item.id }))
-        dispatch(updateCart({ qty: qty - 1, id: item.id }))
+        dispatch(updateQty({ qty: qty - 1, id: item.id }))
     }
 
     function handleAddToCart(e, item) {
@@ -104,13 +104,13 @@ export default function ProductDetailsPage() {
         if (item.qty < 1) {
             dispatch(addToCart(item));
             dispatch(updateItemQty({ id: item.id, qty: 1 }))
-            dispatch(updateCart({ id: item.id, qty: 1 }))
+            dispatch(updateQty({ id: item.id, qty: 1 }))
             toast.success("Item added to cart!!")
         }
         else {
             dispatch(removeFromCart(item));
             dispatch(updateItemQty({ id: item.id, qty: 0 }))
-            dispatch(updateCart({ id: item.id, qty: 0 }))
+            dispatch(updateQty({ id: item.id, qty: 0 }))
             toast.error("Item removed from cart!!")
         }
     }

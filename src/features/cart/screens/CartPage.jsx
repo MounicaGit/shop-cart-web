@@ -4,32 +4,19 @@ import { cart } from "../services/cart";
 import CommonHeader from "../../../components/layout/CommonHeader";
 import HeaderBar from "../../../components/layout/HeaderBar";
 import QtyCounter from "../../../components/ui/QtyCounter";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { selectCartProducts } from "../store/cartSelector";
+import { removeFromCart, updateQty } from "../store/cartSlice";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function CartPage({ onBack, onCheckout }) {
-    // const [cartItems, setCartItems] = useState(cart)
-    const products = useSelector((state) => state.cart.productsInCart ?? [])
     const navigate = useNavigate();
-
-    // Update quantity of an item
-    const updateQuantity = (index, newValue) => {
-        // setCartItems((items) =>
-        //     items.map((item, i) =>
-        //         i === index
-        //             ? { ...item, qty: Math.max(1, item.qty + newValue) }
-        //             : item
-        //     )
-        // );
-    };
-
-    // Remove item from cart
-    const removeItem = (index) => {
-        // setCartItems((items) => items.filter((_, i) => i !== index));
-    };
+    const cartProducts = useSelector(selectCartProducts);
+    const dispatch = useDispatch();
 
     // Price calculations
-    const subtotal = products.reduce(
+    const subtotal = cartProducts.reduce(
         (sum, item) => sum + item.discountedPrice * item.quantity,
         0
     );
@@ -38,7 +25,7 @@ export default function CartPage({ onBack, onCheckout }) {
     const total = subtotal - discount + delivery;
 
     // Empty cart UI
-    if (products.length === 0) {
+    if (cartProducts.length === 0) {
         return (
             <div className="min-h-screen bg-white">
                 {/* <TopBar variant="cart" onBack={onBack} cartCount={0} /> */}
@@ -71,8 +58,8 @@ export default function CartPage({ onBack, onCheckout }) {
     function renderProducts() {
         return (
             <div className="p-4 space-y-3 mb-[70px]">
-                <p className="text-sm">Shopping Cart ({products.length})</p>
-                {products.map((item, index) => (
+                <p className="text-sm">Shopping Cart ({cartProducts.length})</p>
+                {cartProducts.map((item, index) => (
                     <div
                         key={index}
                         className="bg-white rounded-lg p-3 border border-gray-200"
@@ -96,9 +83,11 @@ export default function CartPage({ onBack, onCheckout }) {
                                     )}
                                 </div>
                                 <div className="flex items-center justify-between">
-                                    <QtyCounter qty={item.qty} incrementQty={() => updateQuantity(index, -1)} decrementQty={() => updateQuantity(index, 1)} />
+                                    <QtyCounter qty={item.qty}
+                                        incrementQty={() => dispatch(updateQty({ id: item.id, qty: 1 }))}
+                                        decrementQty={() => { if (item.qty > 1) { dispatch(updateQty({ id: item.id, qty: -1 })) } else { toast.success("Item Removed!!") } }} />
                                     <button
-                                        onClick={() => removeItem(index)}
+                                        onClick={() => dispatch(removeFromCart(item.id))}
                                         className="p-2 text-red-500"
                                     ><img src="/icons/delete.png" className="h-4 w-4" />
                                         {/* <Trash2 className="w-4 h-4" /> */}
@@ -113,7 +102,7 @@ export default function CartPage({ onBack, onCheckout }) {
     }
 
     function renderProductsTotalPrice() {
-        const subtotal = products.reduce((sum, item) => sum + item.discountedPrice * item.qty, 0);
+        const subtotal = cartProducts.reduce((sum, item) => sum + item.discountedPrice * item.qty, 0);
         const discount = Math.floor(subtotal * 0.1);
         const delivery = subtotal > 500 ? 0 : 40;
         const total = subtotal - discount + delivery;
@@ -123,7 +112,7 @@ export default function CartPage({ onBack, onCheckout }) {
                 <div className="p-4 space-y-2 border-b border-gray-200">
                     <div className="flex justify-between text-sm">
                         <span className="text-gray-600">
-                            Subtotal ({products.length} items)
+                            Subtotal ({cartProducts.length} items)
                         </span>
                         <span className="text-gray-900">₹{subtotal.toLocaleString()}</span>
                     </div>
@@ -158,6 +147,7 @@ export default function CartPage({ onBack, onCheckout }) {
             <CommonHeader showCart={false} />
             {renderProducts()}
             {renderProductsTotalPrice()}
+            <Toaster position="top-center" />
         </div>
     );
 };

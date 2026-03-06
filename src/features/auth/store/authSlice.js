@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AUTH_STATUS } from "../../../utils/constants/StringConstants";
-import { getStoredItem, setItemToStore } from "../../../utils/storage/localStorageUtils";
+import { getStoredItem, removeItemFromStorage, setItemToStore } from "../../../utils/storage/localStorageUtils";
 
 
 const storedUser = getStoredItem("currentUser");
@@ -50,6 +50,7 @@ const authSlice = createSlice({
         logout: (state, action) => { // used for only state change
             state.user = null;
             state.error = null;
+            removeItemFromStorage("currentUser")
         },
         clearAuthStatus: (state, action) => {
             // state.user.status = AUTH_STATUS.IDLE;

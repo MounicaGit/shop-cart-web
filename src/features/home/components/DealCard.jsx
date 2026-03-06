@@ -5,7 +5,7 @@ import ProductDetails from "./ProductDetails"
 import { useNavigate } from "react-router-dom"
 import { updateItemQty, updateItemWishlist } from "../store/productSlice";
 import { Toaster, toast } from "react-hot-toast";
-import { addToCart, removeFromCart, updateCart } from "../../cart/store/cartSlice";
+import { addToCart, removeFromCart, updateQty } from "../../cart/store/cartSlice";
 
 export default function DealCard({ item }) {
     const navigate = useNavigate();
@@ -17,13 +17,13 @@ export default function DealCard({ item }) {
         if (item.qty < 1) {
             dispatch(addToCart(item))
             dispatch(updateItemQty({ id: item.id, qty: 1 }))
-            dispatch(updateCart({ id: item.id, qty: 1 }))
+            dispatch(updateQty({ id: item.id, qty: 1 }))
             toast.success("Item added to cart!!")
         }
         else {
             dispatch(removeFromCart(item))
             dispatch(updateItemQty({ id: item.id, qty: 0 }))
-            dispatch(updateCart({ id: item.id, qty: 0 }))
+            dispatch(updateQty({ id: item.id, qty: 0 }))
             toast.error("Item removed from cart!!")
         }
     }

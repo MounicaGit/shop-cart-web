@@ -16,12 +16,14 @@ const cartSlice = createSlice({
             state.productsInCart.push(action.payload)
         },
         removeFromCart: (state, action) => {
-            console.log(`removed ${action.payload.id}`)
-            state.productsInCart = state.productsInCart.filter((item) => item.id !== action.payload.id)
+            console.log(`removed ${action.payload}`)
+            state.productsInCart = state.productsInCart.filter((item) => item.id !== action.payload)
         },
-        updateCart: (state, action) => {
+        updateQty: (state, action) => {
             const product = state.productsInCart.find((item) => item.id === action.payload.id)
-            if (product) { product.qty = action.payload.qty }
+            if (product) {
+                product.qty = product.qty + action.payload.qty
+            }
         },
         addAddressDetails: (state, action) => {
 
@@ -36,5 +38,5 @@ const cartSlice = createSlice({
 }
 )
 
-export const { addToCart, removeFromCart, updateCart, addAddressDetails, addPaymentDetails, placeOrder } = cartSlice.actions;
+export const { addToCart, removeFromCart, updateQty, addAddressDetails, addPaymentDetails, placeOrder } = cartSlice.actions;
 export default cartSlice.reducer;

@@ -15,6 +15,9 @@ const productSlice = createSlice({
             state.allDeals = dealsData;
             state.deals = dealsData;
         },
+        getProductDetails: (state, action) => {
+            return deals.find((item) => item.id === action)
+        },
         updateItemWishlist: (state, action) => {
             console.log("state.deals=>", state.deals)
             state.deals.map((item) => { console.log("id=>", item.id, action.payload); if (item.id == action.payload) { console.log("wishlisted"); item.isWishlisted = !item.isWishlisted } })
@@ -35,6 +38,6 @@ const productSlice = createSlice({
 }
 );
 
-export const { getDeals, updateItemWishlist, filterDeals, updateItemQty } = productSlice.actions;
+export const { getDeals, updateItemWishlist, filterDeals, updateItemQty, getProductDetails } = productSlice.actions;
 
 export default productSlice.reducer;

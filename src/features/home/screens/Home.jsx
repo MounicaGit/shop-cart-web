@@ -5,8 +5,6 @@ import HeaderBar from "../../../components/layout/HeaderBar";
 import Deals from "../components/Deals";
 
 export default function Home() {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     return (
         <div>
