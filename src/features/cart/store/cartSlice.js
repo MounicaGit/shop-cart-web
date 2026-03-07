@@ -13,11 +13,11 @@ const cartSlice = createSlice({
     reducers: {
         addToCart: (state, action) => {
             console.log(`added ${action.payload.id}`)
-            state.productsInCart.push(action.payload)
+            state.productsInCart.push({id: action.payload.id, qty: 1})
         },
         removeFromCart: (state, action) => {
-            console.log(`removed ${action.payload}`)
             state.productsInCart = state.productsInCart.filter((item) => item.id !== action.payload)
+            console.log(`removed ${action.payload}`)
         },
         updateQty: (state, action) => {
             const product = state.productsInCart.find((item) => item.id === action.payload.id)

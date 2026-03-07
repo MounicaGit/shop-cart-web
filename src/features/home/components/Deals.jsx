@@ -5,21 +5,21 @@ import { getDeals } from "../store/productSlice";
 
 export default function Deals() {
     const dispatch = useDispatch();
-    const deals = useSelector((state) => state.product.deals) || [];
-    const allDeals = useSelector((state) => state.product.allDeals)
+    const products = useSelector((state) => state.product.products) || [];
+    const allProducts = useSelector((state) => state.product.allProducts)
 
     useEffect(() => {
-        if (allDeals.length == 0)
+        if (allProducts.length == 0)
             dispatch(getDeals())
-    }, [allDeals.length, dispatch])
+    }, [allProducts.length, dispatch])
 
     function renderDeals() {
         return (
             <ul className=" flex flex-row mt-3 gap-3 overflow-x-auto scrollbar-hide">
                 {
-                    deals.length == 0 ?
+                    products.length == 0 ?
                         <div className="flex text-xl text-gray-500 text-center justify-center items-center">No items Found!!</div> :
-                        deals.map((item, index) => (
+                        products.map((item, index) => (
                             <li key={item.id} className="">{<DealCard key={index} item={item} />}</li>
                         ))
                 }

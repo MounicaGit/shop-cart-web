@@ -12,14 +12,16 @@ import { Toaster, toast } from "react-hot-toast";
 import QtyCounter from "../../../components/ui/QtyCounter";
 import CommonHeader from "../../../components/layout/CommonHeader";
 import { addToCart, removeFromCart, updateQty } from "../../cart/store/cartSlice";
+import { getProductQty } from "../../cart/store/cartSelector";
 
 export default function ProductDetailsPage() {
     // const { state } = useLocation();
     // var item = state?.item;
     const { id } = useParams();
-    const deals = useSelector((state) => state.product.deals)
-    const item = deals.find((item) => item.id === Number(id));
+    const products = useSelector((state) => state.product.products)
+    const item = products.find((item) => item.id === Number(id));
     const [selectedProductImgIndex, setSelectedProductImgIndex] = useState(0);
+    const qty = useSelector(getProductQty(item.id));
     console.log("item=>", item)
     const tabs = [
         { label: "Details", path: "details", },
@@ -84,47 +86,50 @@ export default function ProductDetailsPage() {
         )
     }
 
-    function incrementQty() {
-        if (item.qty > 0) {
-            const qty = item.qty;
-            dispatch(updateItemQty({ qty: Math.max(qty + 1, 0), id: item.id }))
-            dispatch(updateQty({ qty: Math.max(qty + 1, 0), id: item.id }))
-            dispatch(updateQty({ id: item.id, qty: qty + 1 }))
-        }
-    }
-
     function decrementQty() {
-        const qty = item.qty;
-        dispatch(updateItemQty({ qty: qty - 1, id: item.id }))
-        dispatch(updateQty({ qty: qty - 1, id: item.id }))
+        if (qty > 0) {
+            // dispatch(updateItemQty({ qty: Math.max(qty + 1, 0), id: item.id }))
+            // dispatch(updateQty({ qty: Math.max(qty + 1, 0), id: item.id }))
+            dispatch(updateQty({ id: item.id, qty: -1 }))
+        }
     }
 
-    function handleAddToCart(e, item) {
+    function incrementQty() {
+        // dispatch(updateItemQty({ qty: qty - 1, id: item.id }))
+        dispatch(updateQty({ qty: 1, id: item.id }))
+    }
+
+    function handleAddToCart(e, item,) {
         e.stopPropagation();
-        if (item.qty < 1) {
-            dispatch(addToCart(item));
-            dispatch(updateItemQty({ id: item.id, qty: 1 }))
-            dispatch(updateQty({ id: item.id, qty: 1 }))
-            toast.success("Item added to cart!!")
-        }
-        else {
-            dispatch(removeFromCart(item));
-            dispatch(updateItemQty({ id: item.id, qty: 0 }))
-            dispatch(updateQty({ id: item.id, qty: 0 }))
+        dispatch(addToCart(item))
+        // dispatch(updateItemQty({ id: item.id, qty: 1 }))
+        // dispatch(updateQty({ id: item.id, qty: 1 }))
+        toast.success("Item added to cart!!")
+    }
+
+    function handleRemoveFromCart(e, item,) {
+        {
+            e.stopPropagation();
+            dispatch(removeFromCart(item.id))
+            // dispatch(updateItemQty({ id: item.id, qty: 0 }))
+            // dispatch(updateQty({ id: item.id, qty: 0 }))
             toast.error("Item removed from cart!!")
         }
     }
 
     function renderButtons() {
         return (
-            <div className="flex flex-row fixed bottom-0 bg-white w-[600px] justify-between gap-2 pb-5">
-                {item.qty > 0 && <QtyCounter qty={item.qty} incrementQty={incrementQty} decrementQty={decrementQty} />}
-                <Button className={`flex-1 ${item.qty > 0 ? " bg-red-500" : "bg-blue-700"} justify-center items-center p-3 rounded-md`}
-                    onClick={(e) => handleAddToCart(e, item)}
-                ><div className="flex flex-row gap-2 justify-center">
-                        <img src="/icons/cart.png" className="h-4 w-4 mt-1" />
-                        <p className="text-white">{item.qty > 0 ? "Remove from Cart" : "Add to Cart"}</p></div></Button>
-                <Button className="flex-1 bg-orange-500 justify-center items-center p-3 rounded-md"
+            <div className="flex flex-row fixed bottom-0 bg-white w-[600px] justify-between items-center gap-2 pb-5">
+                {qty > 0 && <QtyCounter qty={qty} incrementQty={incrementQty} decrementQty={decrementQty} />}
+                {
+                    qty < 1
+                        ? <Button onClick={(e) => { handleAddToCart(e, item) }}
+                            className={`h-[50px] bg-blue-700 w-[50%] disabled:opacity-50 hover:opacity-[50%] rounded-md text-white mt-2`}><div className={`flex flex-row justify-center items-center gap-2 text-sm`}>Add to Cart</div></Button>
+                        : <Button onClick={(e) => { handleRemoveFromCart(e, item) }}
+                            className={`h-[50px] bg-red-500 w-[50%] disabled:opacity-50 hover:opacity-[50%] rounded-md text-white mt-2`}><div className={`flex flex- row justify-center items-center gap-2 text-sm`}>{<img className="h-4 w-4" src="/icons/cart.png" />}Remove from Cart</div></Button>
+
+                }
+                <Button className="h-[50px] flex-1 bg-orange-500 rounded-md mt-2"
                     onClick={() => { }}
                 ><div>
                         <p className="text-white">Buy Now</p></div></Button>

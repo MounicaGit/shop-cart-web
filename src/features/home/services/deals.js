@@ -1,6 +1,6 @@
 import { backpack, deliveryTruck, headphones, jeans, returnPolicy, shoes, smartPhone, smartWatch, warranty, } from "../../../utils/constants/imageConstants";
 
-export const deals = [
+export const products = [
     {
         id: 1,
         qty: 0,

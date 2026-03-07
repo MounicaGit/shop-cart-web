@@ -1,38 +1,38 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { deals } from '../services/deals'
+import { products } from '../services/deals'
 
-const initialState = { deals: [], allDeals: [] }
+const initialState = { products: [], allProducts: [] }
 const productSlice = createSlice({
     name: "product",
     initialState: initialState,
     reducers: {
         getDeals: (state, action) => {
             const dealsData = [];
-            deals.map((item) => {
+            products.map((item) => {
                 dealsData.push(item)
             })
-            console.log("deals=>", dealsData)
-            state.allDeals = dealsData;
-            state.deals = dealsData;
+            console.log("products=>", dealsData)
+            state.allProducts = dealsData;
+            state.products = dealsData;
         },
         getProductDetails: (state, action) => {
-            return deals.find((item) => item.id === action)
+            return products.find((item) => item.id === action)
         },
         updateItemWishlist: (state, action) => {
-            console.log("state.deals=>", state.deals)
-            state.deals.map((item) => { console.log("id=>", item.id, action.payload); if (item.id == action.payload) { console.log("wishlisted"); item.isWishlisted = !item.isWishlisted } })
+            console.log("state.products=>", state.products)
+            state.products.map((item) => { console.log("id=>", item.id, action.payload); if (item.id == action.payload) { console.log("wishlisted"); item.isWishlisted = !item.isWishlisted } })
         },
         updateItemQty: (state, action) => {
-            const item = state.deals.find((item) => item.id === action.payload.id)
+            const item = state.products.find((item) => item.id === action.payload.id)
             item.qty = action.payload.qty;
         },
         filterDeals: (state, action) => {
             if (action.payload) {
-                const filteredDeals = state.allDeals.filter((item) => item.name.toLowerCase().includes(action.payload.toLowerCase()))
-                state.deals = filteredDeals
+                const filteredDeals = state.allProducts.filter((item) => item.name.toLowerCase().includes(action.payload.toLowerCase()))
+                state.products = filteredDeals
             }
             else
-                state.deals = state.allDeals;
+                state.products = state.allProducts;
         }
     }
 }
