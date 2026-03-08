@@ -11,9 +11,9 @@ import ProductDetailsTab from '../features/home/screens/ProductDetailsTab';
 import ProductSpecificationsTab from '../features/home/screens/ProductSpecificationsTab';
 import ProductReviewsTab from '../features/home/screens/ProductReviewsTab';
 import CartPage from '../features/cart/screens/CartPage';
-import CheckoutAddress from '../features/cart/screens/CheckOutAddress';
-import CheckoutPayment from '../features/cart/screens/CheckoutPayment';
-import Checkout from '../features/cart/screens/Checkout';
+import CheckoutAddress from '../features/checkout/screens/CheckOutAddress';
+import CheckoutPayment from '../features/checkout/screens/CheckoutPayment';
+import Checkout from '../features/checkout/screens/Checkout';
 import { AUTH_STATUS } from '../utils/constants/StringConstants';
 
 export default function AppRoutes() {

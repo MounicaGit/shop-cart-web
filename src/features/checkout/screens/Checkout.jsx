@@ -5,15 +5,18 @@ import CheckoutPayment from "./CheckoutPayment";
 import Button from "../../../components/ui/Button";
 import CheckoutReview from "./CheckoutReview";
 import { useNavigate } from "react-router-dom";
-import { getTotalPrice } from "../store/cartSelector";
-import useCart from "../hooks/useCart";
+import { getTotalPrice } from "../../cart/store/cartSelector";
+import useCart from "../../cart/hooks/useCart";
+import { useDispatch } from "react-redux";
+import { addAddress } from "../store/checkoutSlice";
 
 export default function Checkout() {
     const [step, setStep] = useState(1)
     const [isValidForm, setIsValidForm] = useState(false)
     const navigate = useNavigate();
-    const {finalPrice} = useCart();
-    
+    const { finalPrice } = useCart();
+    const dispatch = useDispatch();
+
     useEffect(() => {
         setIsValidForm(false)
         if (step == 3)
@@ -50,6 +53,9 @@ export default function Checkout() {
 
     function handleUpdateStep(stepValue) {
         console.log("stepValue=>", stepValue)
+        if (step === 1) {
+            dispatch(addAddress({}));
+        }
         if (step == 3 && stepValue == 4) {
             console.log("navigated")
             navigate("/home")
