@@ -5,11 +5,14 @@ import CheckoutPayment from "./CheckoutPayment";
 import Button from "../../../components/ui/Button";
 import CheckoutReview from "./CheckoutReview";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { getTotalPrice } from "../store/cartSelector";
 
 export default function Checkout() {
     const [step, setStep] = useState(1)
     const [isValidForm, setIsValidForm] = useState(false)
     const navigate = useNavigate();
+    const {finalPrice} = useSelector(getTotalPrice)
 
     useEffect(() => {
         setIsValidForm(false)
@@ -61,7 +64,7 @@ export default function Checkout() {
                 <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-4">
                     <div className="flex-1 text-sm">
                         <span className="text-gray-500">Total Amount</span>
-                        <div className="text-lg font-semibold">₹7497</div>
+                        <div className="text-lg font-semibold">₹{finalPrice}</div>
                     </div>
                     {step > 1 && <Button
                         className="w-full md:w-auto border border-blue-600 text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-blue-50 transition"

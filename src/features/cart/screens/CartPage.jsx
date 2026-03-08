@@ -6,23 +6,15 @@ import HeaderBar from "../../../components/layout/HeaderBar";
 import QtyCounter from "../../../components/ui/QtyCounter";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { selectCartProducts } from "../store/cartSelector";
+import { getTotalPrice, selectCartProducts } from "../store/cartSelector";
 import { removeFromCart, updateQty } from "../store/cartSlice";
 import toast, { Toaster } from "react-hot-toast";
 
-export default function CartPage({ onBack, onCheckout }) {
+export default function CartPage() {
     const navigate = useNavigate();
     const cartProducts = useSelector(selectCartProducts);
     const dispatch = useDispatch();
-
-    // Price calculations
-    const subtotal = cartProducts.reduce(
-        (sum, item) => sum + item.discountedPrice * item.quantity,
-        0
-    );
-    const discount = Math.floor(subtotal * 0.1);
-    const delivery = subtotal > 500 ? 0 : 40;
-    const total = subtotal - discount + delivery;
+    const {finalPrice, discount, delivery, totalPrice} = useSelector(getTotalPrice);
 
     // Empty cart UI
     if (cartProducts.length === 0) {
@@ -55,6 +47,10 @@ export default function CartPage({ onBack, onCheckout }) {
         );
     }
 
+    function onCheckout() {
+        navigate("/checkout")
+    }
+
     function renderProducts() {
         return (
             <div className="p-4 space-y-3 mb-[70px]">
@@ -74,7 +70,7 @@ export default function CartPage({ onBack, onCheckout }) {
                                 </h4>
                                 <div className="flex items-baseline gap-2 mb-2">
                                     <span className="text-gray-900">
-                                        ₹{item.discountedPrice.toLocaleString()}
+                                        ₹{item.discountedPrice}
                                     </span>
                                     {item.originalPrice && (
                                         <span className="text-sm text-gray-400 line-through">
@@ -102,11 +98,6 @@ export default function CartPage({ onBack, onCheckout }) {
     }
 
     function renderProductsTotalPrice() {
-        const subtotal = cartProducts.reduce((sum, item) => sum + item.discountedPrice * item.qty, 0);
-        const discount = Math.floor(subtotal * 0.1);
-        const delivery = subtotal > 500 ? 0 : 40;
-        const total = subtotal - discount + delivery;
-
         return (<div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200">
             <div>
                 <div className="p-4 space-y-2 border-b border-gray-200">
@@ -114,11 +105,11 @@ export default function CartPage({ onBack, onCheckout }) {
                         <span className="text-gray-600">
                             Subtotal ({cartProducts.length} items)
                         </span>
-                        <span className="text-gray-900">₹{subtotal.toLocaleString()}</span>
+                        <span className="text-gray-900">₹{totalPrice.toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between text-sm">
                         <span className="text-gray-600">Discount</span>
-                        <span className="text-green-600">-₹{200}</span>
+                        <span className="text-green-600">-₹{discount}</span>
                     </div>
                     <div className="flex justify-between text-sm">
                         <span className="text-gray-600">Delivery</span>
@@ -131,7 +122,7 @@ export default function CartPage({ onBack, onCheckout }) {
                     <hr />
                     <div className="flex justify-between text-sm">
                         <p className="text-sm font-semibold">Total Amount</p>
-                        <h3 className="text-gray-900 font-semibold text-[16px]">₹{total.toLocaleString()}</h3>
+                        <h3 className="text-gray-900 font-semibold text-[16px]">₹{finalPrice.toLocaleString()}</h3>
                     </div>
                     <div className="h-2"></div>
                     <Button className="flex w-full bg-orange-500 justify-center items-center p-3 rounded-md text-white my-5" onClick={onCheckout}>Proceed to Checkout</Button>
