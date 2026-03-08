@@ -1,6 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { add } from "lodash";
-import { useSelector } from "react-redux";
 
 const initialState = {
     productsInCart: [],

@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Button from "../../../components/ui/Button"
 import ProductDetails from "./ProductDetails"
 import { useNavigate } from "react-router-dom"
-import { updateItemQty, updateItemWishlist } from "../store/productSlice";
+import { updateItemWishlist } from "../store/productSlice";
 import { Toaster, toast } from "react-hot-toast";
-import { addToCart, removeFromCart, updateQty } from "../../cart/store/cartSlice";
+import { addToCart, removeFromCart } from "../../cart/store/cartSlice";
 import { getProductQty } from "../../cart/store/cartSelector";
 
 export default function DealCard({ item }) {
@@ -17,8 +17,6 @@ export default function DealCard({ item }) {
     function handleAddToCart(e, item,) {
         e.stopPropagation();
         dispatch(addToCart(item))
-        // dispatch(updateItemQty({ id: item.id, qty: 1 }))
-        // dispatch(updateQty({ id: item.id, qty: 1 }))
         toast.success("Item added to cart!!")
     }
 
@@ -26,8 +24,6 @@ export default function DealCard({ item }) {
         {
             e.stopPropagation();
             dispatch(removeFromCart(item.id))
-            // dispatch(updateItemQty({ id: item.id, qty: 0 }))
-            // dispatch(updateQty({ id: item.id, qty: 0 }))
             toast.error("Item removed from cart!!")
         }
     }

@@ -1,20 +1,17 @@
-import React, { useState, useEffect } from "react";
 import Button from "../../../components/ui/Button";
-import { cart } from "../services/cart";
 import CommonHeader from "../../../components/layout/CommonHeader";
-import HeaderBar from "../../../components/layout/HeaderBar";
 import QtyCounter from "../../../components/ui/QtyCounter";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getTotalPrice, selectCartProducts } from "../store/cartSelector";
 import { removeFromCart, updateQty } from "../store/cartSlice";
 import toast, { Toaster } from "react-hot-toast";
+import useCart from "../hooks/useCart";
 
 export default function CartPage() {
     const navigate = useNavigate();
-    const cartProducts = useSelector(selectCartProducts);
     const dispatch = useDispatch();
-    const {finalPrice, discount, delivery, totalPrice} = useSelector(getTotalPrice);
+    const { cartProducts, finalPrice, discount, delivery, totalPrice } = useCart();
 
     // Empty cart UI
     if (cartProducts.length === 0) {
@@ -57,7 +54,7 @@ export default function CartPage() {
                 <p className="text-sm">Shopping Cart ({cartProducts.length})</p>
                 {cartProducts.map((item, index) => (
                     <div
-                        key={index}
+                        key={item.id}
                         className="bg-white rounded-lg p-3 border border-gray-200"
                     >
                         <div className="flex gap-3">

@@ -1,27 +1,21 @@
-import { Route, Routes, useLocation, Navigate, Outlet, useParams, useNavigate } from "react-router-dom";
+import { Outlet, useParams, useNavigate } from "react-router-dom";
 import ProductDetails from "../components/ProductDetails";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Button from '../../../components/ui/Button'
 import RouterTabs from "../../../components/ui/RouterTabs";
-import ProductDetailsTab from "./ProductDetailsTab";
-import ProductSpecificationsTab from "./ProductSpecificationsTab";
-import ProductReviewsTab from "./ProductReviewsTab";
-import { useDispatch, useSelector } from "react-redux";
-import { updateItemWishlist, updateItemQty } from "../store/productSlice";
+import { useDispatch } from "react-redux";
+import { updateItemWishlist } from "../store/productSlice";
 import { Toaster, toast } from "react-hot-toast";
 import QtyCounter from "../../../components/ui/QtyCounter";
 import CommonHeader from "../../../components/layout/CommonHeader";
 import { addToCart, removeFromCart, updateQty } from "../../cart/store/cartSlice";
-import { getProductQty } from "../../cart/store/cartSelector";
+import useProduct from "../hooks/useProduct";
 
 export default function ProductDetailsPage() {
-    // const { state } = useLocation();
-    // var item = state?.item;
     const { id } = useParams();
-    const products = useSelector((state) => state.product.products)
     const item = products.find((item) => item.id === Number(id));
+    const { products, qty } = useProduct({ id: item.id });
     const [selectedProductImgIndex, setSelectedProductImgIndex] = useState(0);
-    const qty = useSelector(getProductQty(item.id));
     console.log("item=>", item)
     const tabs = [
         { label: "Details", path: "details", },

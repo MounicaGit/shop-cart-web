@@ -20,7 +20,7 @@ export default function Deals() {
                     products.length == 0 ?
                         <div className="flex text-xl text-gray-500 text-center justify-center items-center">No items Found!!</div> :
                         products.map((item, index) => (
-                            <li key={item.id} className="">{<DealCard key={index} item={item} />}</li>
+                            <li key={item.id} className="">{<DealCard key={item.id} item={item} />}</li>
                         ))
                 }
             </ul>

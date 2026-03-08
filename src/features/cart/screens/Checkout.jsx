@@ -5,15 +5,15 @@ import CheckoutPayment from "./CheckoutPayment";
 import Button from "../../../components/ui/Button";
 import CheckoutReview from "./CheckoutReview";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { getTotalPrice } from "../store/cartSelector";
+import useCart from "../hooks/useCart";
 
 export default function Checkout() {
     const [step, setStep] = useState(1)
     const [isValidForm, setIsValidForm] = useState(false)
     const navigate = useNavigate();
-    const {finalPrice} = useSelector(getTotalPrice)
-
+    const {finalPrice} = useCart();
+    
     useEffect(() => {
         setIsValidForm(false)
         if (step == 3)

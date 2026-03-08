@@ -1,5 +1,4 @@
 import { Navigate } from "react-router";
-import { useAuth } from "../context/AuthContext";
 import { useSelector } from "react-redux";
 import { AUTH_STATUS } from "../utils/constants/StringConstants";
 
