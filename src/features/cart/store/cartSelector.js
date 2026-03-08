@@ -13,15 +13,16 @@ export const getProductQty = (productId) => (state) => {
 }
 
 export const getTotalPrice = (state) => {
-    var total = 0;
-    const totalPrice = state.cart.productsInCart.map((item) => {
-        const productInCart = state.product.allProducts.filter((product) => product.id === item.id);
-        console.log(`originalPrice=> ${productInCart[0].discountedPrice}`)
-        return (total + productInCart[0].discountedPrice);
-    })
-        // Price calculations
-    const discount = Math.floor(totalPrice * 0.1);
-    const delivery = totalPrice > 500 ? 0 : 40;
-    const finalPrice = totalPrice - discount + delivery;
-    return {discount, delivery, finalPrice, totalPrice};
-}
+  const products = state.product.allProducts;
+  const cartItems = state.cart.productsInCart;
+  const totalPrice = cartItems.reduce((total, item) => {
+    const product = products.find((p) => p.id === item.id);
+    if (!product) return total;
+    return total + product.discountedPrice * item.qty;
+  }, 0);
+  const discount = Math.floor(totalPrice * 0.1);
+  const delivery = totalPrice > 500 ? 0 : 40;
+  const finalPrice = totalPrice - discount + delivery;
+
+  return { totalPrice, discount, delivery, finalPrice };
+};
