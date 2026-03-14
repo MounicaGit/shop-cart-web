@@ -1,29 +1,69 @@
 import { useState, useEffect } from "react";
 import TextField from "../../../components/ui/TextField";
 import useValidators from "../../../utils/validations/validators";
+import Button from "../../../components/ui/Button";
+import useCart from "../../cart/hooks/useCart";
+import { useDispatch } from "react-redux";
+import { addPayment } from "../store/checkoutSlice";
 
-export default function CheckoutPayment({ setIsValidForm }) {
-    const [method, setMethod] = useState("card");
+const CARD = "Card";
+const UPI = "UPI";
+const COD = "Cash On Delivery";
+
+export default function CheckoutPayment({ setIsValidForm, handleUpdateStep }) {
+    const [method, setMethod] = useState(CARD);
     const [cardNumber, setCardNumber] = useState("");
     const [cvvNumber, setCvvNumber] = useState("");
     const [cardHolderName, setCardHolderName] = useState("");
     const [cardExpiry, setCardExpiry] = useState("");
     const [upi, setUPI] = useState("");
     const { validateCardNumber, validateCvvNumber, validateFullName, validateExpiry, validateUPI, fullNameError, cardNumberError, cvvNumberError, cardExpiryError, upiError } = useValidators();
+    const { finalPrice } = useCart();
+    const dispatch = useDispatch();
 
-    const isValidForm = (method == "card" && !!cardNumber &&
+    const isValidForm = (method == CARD && !!cardNumber &&
         !!cvvNumber &&
         !!cardHolderName &&
         !!cardExpiry &&
         !cardNumberError &&
         !cvvNumberError &&
         !fullNameError &&
-        !cardExpiryError) || (method == "upi" && !upiError && !!upi)
+        !cardExpiryError) || (method == UPI && !upiError && !!upi) || (method == COD)
 
     useEffect(() => {
         setIsValidForm(isValidForm)
     }, [isValidForm, setIsValidForm])
 
+    function handleAddPayment() {
+        dispatch(addPayment({ method: method, paymentDetails: method == CARD ? { cardNumber: cardNumber, cardExpiry: cardExpiry, cvvNumber: cvvNumber } : method == UPI ? { upi: upi } : {} }));
+        handleUpdateStep(3)
+    }
+
+    function renderFooter() {
+        return (
+            <div className="bg-white border-t px-6 py-4 fixed bottom-0 w-full">
+                <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-4">
+                    <div className="flex-1 text-sm">
+                        <span className="text-gray-500">Total Amount</span>
+                        <div className="text-lg font-semibold">₹{finalPrice}</div>
+                    </div>
+                    {<Button
+                        className="w-full md:w-auto border border-blue-600 text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-blue-50 transition"
+                        onClick={() => handleUpdateStep(1)}>Back</Button>}
+
+                    <Button
+                        disabled={!isValidForm}
+                        className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white px-10 py-3 rounded-lg font-medium transition disabled:opacity-50"
+                        onClick={handleAddPayment}>Continue</Button>
+                    {/* {step == 3 &&
+                            <Button
+                                disabled={!isValidForm}
+                                className="w-full md:w-auto bg-orange-600 hover:opacity-50 text-white px-10 py-3 rounded-lg font-medium transition disabled:opacity-50"
+                                onClick={() => handleUpdateStep(step + 1)}>Place Order</Button>} */}
+                </div>
+            </div>
+        )
+    }
 
     function renderPaymentMethods() {
         return (
@@ -33,18 +73,18 @@ export default function CheckoutPayment({ setIsValidForm }) {
                 <div className="space-y-3">
                     <PaymentOption
                         label="Credit/Debit Card"
-                        selected={method === "card"}
-                        onClick={() => setMethod("card")}
+                        selected={method === CARD}
+                        onClick={() => setMethod(CARD)}
                     />
                     <PaymentOption
-                        label="UPI"
-                        selected={method === "upi"}
-                        onClick={() => setMethod("upi")}
+                        label={UPI}
+                        selected={method === UPI}
+                        onClick={() => setMethod(UPI)}
                     />
                     <PaymentOption
                         label="Cash on Delivery"
-                        selected={method === "cod"}
-                        onClick={() => setMethod("cod")}
+                        selected={method === COD}
+                        onClick={() => setMethod(COD)}
                     />
                 </div>
             </div>
@@ -116,14 +156,15 @@ export default function CheckoutPayment({ setIsValidForm }) {
         <div className="min-h-screen bg-gray-50 flex flex-col">
             <div className="flex-1 px-6 py-8 space-y-6">
                 {renderPaymentMethods()}
-                {method === "card" && (
+                {method === CARD && (
                     renderCard()
                 )}
                 {
-                    method === "upi" && (
+                    method === UPI && (
                         renderUpi()
                     )
                 }
+                {renderFooter()}
             </div>
 
         </div>

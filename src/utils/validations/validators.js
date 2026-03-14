@@ -1,11 +1,12 @@
 import { set } from "zod";
 import { useState } from "react";
-import { cardExpirySchema, cardNumberSchema, cvvNumberSchema, emailSchema, fullNameSchema, passwordSchema, phoneSchema, pinCodeSchema, upiSchema } from "./vaildationSchemas";
+import { addressSchema, cardExpirySchema, cardNumberSchema, cvvNumberSchema, emailSchema, fullNameSchema, passwordSchema, phoneSchema, pinCodeSchema, upiSchema } from "./vaildationSchemas";
 
 export default function useValidators() {
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
     const [fullNameError, setFullNameError] = useState("");
+    const [addressError, setAddressError] = useState("");
     const [phoneError, setPhoneError] = useState("");
     const [pincodeError, setPincodeError] = useState("");
     const [cardNumberError, setcardNumberError] = useState("");
@@ -29,6 +30,12 @@ export default function useValidators() {
     const validateFullName = (value) => {
         const result = fullNameSchema.safeParse(value);
         setFullNameError(result.success ? "" : JSON.parse(result.error.message)[0].message);
+        return result.success;
+    }
+
+    const validateAddress = (value) => {
+        const result = addressSchema.safeParse(value);
+        setAddressError(result.success ? "" : JSON.parse(result.error.message)[0].message);
         return result.success;
     }
 
@@ -68,7 +75,7 @@ export default function useValidators() {
     }
     return {
         emailError,
-        passwordError, phoneError, fullNameError, pincodeError, cardNumberError, cvvNumberError, cardExpiryError, upiError, validateEmail, validateFullName, validatePhone, validatePassword, validatePincode, validateCardNumber, validateCvvNumber,
+        passwordError, phoneError, fullNameError, pincodeError, cardNumberError, addressError, cvvNumberError, cardExpiryError, upiError, validateEmail, validateAddress, validateFullName, validatePhone, validatePassword, validatePincode, validateCardNumber, validateCvvNumber,
         validateExpiry, validateUPI
     }
 }

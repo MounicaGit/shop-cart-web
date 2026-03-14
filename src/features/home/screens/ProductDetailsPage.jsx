@@ -13,8 +13,8 @@ import useProduct from "../hooks/useProduct";
 
 export default function ProductDetailsPage() {
     const { id } = useParams();
+    const { products, qty } = useProduct({ id: id });
     const item = products.find((item) => item.id === Number(id));
-    const { products, qty } = useProduct({ id: item.id });
     const [selectedProductImgIndex, setSelectedProductImgIndex] = useState(0);
     console.log("item=>", item)
     const tabs = [
